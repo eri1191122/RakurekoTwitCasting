@@ -30,16 +30,6 @@
     "sameSite": "None"
   },
   {
-    "name": "__cf_bm",
-    "value": "2i8p3BUD8g_zlG9uCS8trfpRuAVdvXMiGRca.nAeJmE-1754146750-1.0.1.1-Mli5Pq18ufgj.YJiSDopnndNuVyU.WUBDr3D_eAAlWhwalnQDasYuogg9H3b_XRl3uY3xpGrJ.tkO5LDmJweBKgxrnhyGvwwnSK3MxYaljk",
-    "domain": ".t.co",
-    "path": "/",
-    "expires": 1754148550.433562,
-    "httpOnly": true,
-    "secure": true,
-    "sameSite": "None"
-  },
-  {
     "name": "personalization_id",
     "value": "\"v1_0ARceQjiF2/C6v/HarRVkQ==\"",
     "domain": ".twitter.com",
@@ -50,33 +40,43 @@
     "sameSite": "None"
   },
   {
+    "name": "_ga",
+    "value": "GA1.1.1964087016.1754146750",
+    "domain": ".twitcasting.tv",
+    "path": "/",
+    "expires": 1788834353.824837,
+    "httpOnly": false,
+    "secure": false,
+    "sameSite": "Lax"
+  },
+  {
     "name": "__cf_bm",
-    "value": "CzClUlucFEsIN.L82meivLtDWdjGawSIGQNFZwR2k44-1754146750-1.0.1.1-lqnfj3pNL2pK5YaZGtiWgNOGqFf1JAzrqW2MZeoyChl3_arGB3nkFc1o04hTuJSa9HjplfcliiYtt3vNuB7_6EDFYIAXpCOKDXpQts70gQQ",
+    "value": "NrKBaVBAhE3bGAtHbamBNchg7179aQp7nKXcCRk7Q1E-1754274353-1.0.1.1-30k6_Hlrxc6.6BZm53jDMWwyaBoGnVQ0rcxtDK_QDIeyWWXlcFnUTDbxHhmazFBozFmtMz29ujlIjNmqOKXXdDKS.jlGjfFl9.b02PL7L8U",
     "domain": ".twitter.com",
     "path": "/",
-    "expires": 1754148550.442978,
+    "expires": 1754276153.795107,
     "httpOnly": true,
     "secure": true,
     "sameSite": "None"
   },
   {
     "name": "_ga_X8R46Y30YM",
-    "value": "GS2.1.s1754146750$o1$g0$t1754146750$j60$l0$h0",
+    "value": "GS2.1.s1754274353$o2$g0$t1754274353$j60$l0$h0",
     "domain": ".twitcasting.tv",
     "path": "/",
-    "expires": 1788706750.458474,
+    "expires": 1788834353.824533,
     "httpOnly": false,
     "secure": false,
     "sameSite": "Lax"
   },
   {
-    "name": "_ga",
-    "value": "GA1.1.1964087016.1754146750",
-    "domain": ".twitcasting.tv",
+    "name": "__cf_bm",
+    "value": "GyX8561ZfOjRT4s4SQWRaJ1Kk2HrC3krNfboTgITYE0-1754274353-1.0.1.1-VqLCuhAaPdjbot_KsQELfP8llv1zrnJ72g18elGuZwb5vZvF3AhQOReCVYblT2zXB.xZlpsFz3Giqj72KbY8rdnKMYJnw3aFx28n3ocrJ.4",
+    "domain": ".t.co",
     "path": "/",
-    "expires": 1788706750.458705,
-    "httpOnly": false,
-    "secure": false,
-    "sameSite": "Lax"
+    "expires": 1754276153.828607,
+    "httpOnly": true,
+    "secure": true,
+    "sameSite": "None"
   }
 ]

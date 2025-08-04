@@ -1,0 +1,96 @@
+2025-08-04 11:25:44 - INFO - root - ログシステム初期化完了
+2025-08-04 11:25:44 - INFO - __main__ - ============================================================
+2025-08-04 11:25:44 - INFO - __main__ - 🎬 ラクロク TwitCasting v2.0 起動中...
+2025-08-04 11:25:44 - INFO - __main__ - ============================================================
+2025-08-04 11:25:44 - INFO - __main__ - ✅ 設定管理初期化完了
+2025-08-04 11:25:44 - INFO - __main__ - 🔍 依存関係チェック中...
+2025-08-04 11:25:50 - INFO - __main__ - ✅ streamlink: streamlink 7.5.0
+2025-08-04 11:25:50 - INFO - __main__ - ✅ yt-dlp: 2025.05.22
+2025-08-04 11:25:50 - INFO - __main__ - ✅ ffmpeg: ffmpeg version 2025-06-04-git-a4c1a5b084-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+built with gcc 15.1.0 (Rev4, Built by MSYS2 project)
+configuration: --enable-gpl --enab
+2025-08-04 11:25:50 - INFO - __main__ - ✅ playwright (オプション): Version 1.52.0
+2025-08-04 11:25:50 - WARNING - __main__ - ⚠️ chromedriver (オプション): 'utf-8' codec can't decode byte 0x82 in position 15: invalid start byte
+2025-08-04 11:25:51 - INFO - __main__ - ✅ 認証管理初期化完了
+2025-08-04 11:25:51 - INFO - __main__ - ✅ URL管理初期化完了
+2025-08-04 11:25:51 - INFO - authenticated_recording - 認証付き録画エンジン初期化完了
+2025-08-04 11:25:51 - INFO - __main__ - ✅ 認証付き録画エンジン初期化完了
+2025-08-04 11:25:51 - INFO - twitcasting_monitor - 実TwitCasting監視システム初期化完了
+2025-08-04 11:25:51 - INFO - __main__ - ✅ 監視システム初期化完了
+2025-08-04 11:25:51 - INFO - __main__ - ✅ システム監視初期化完了
+2025-08-04 11:25:51 - INFO - twitcasting_monitor - 監視対象追加: c
+2025-08-04 11:25:51 - INFO - twitcasting_monitor - 監視対象追加: vau0307
+2025-08-04 11:25:51 - INFO - twitcasting_monitor - 監視対象追加: c:kutuna_
+2025-08-04 11:25:51 - INFO - twitcasting_monitor - 監視対象追加: komachik1221
+2025-08-04 11:25:51 - INFO - __main__ - 📋 監視対象URL: 4件
+2025-08-04 11:25:51 - INFO - __main__ -   1. c
+2025-08-04 11:25:51 - INFO - __main__ -   2. vau0307
+2025-08-04 11:25:51 - INFO - __main__ -   3. c:kutuna_
+2025-08-04 11:25:51 - INFO - __main__ -   4. komachik1221
+2025-08-04 11:25:51 - INFO - __main__ - 🔐 認証状態確認中...
+2025-08-04 11:25:51 - INFO - __main__ - Cookie更新が必要です
+2025-08-04 11:25:51 - INFO - auth_core - Cookie更新が必要です
+2025-08-04 11:25:53 - INFO - auth_core - 既にログイン済み
+2025-08-04 11:25:53 - INFO - auth_core - Cookie保存完了
+2025-08-04 11:25:54 - INFO - auth_core - Cookie更新成功
+2025-08-04 11:25:54 - INFO - __main__ - ✅ Cookie更新成功
+2025-08-04 11:25:54 - INFO - __main__ - 🚀 システム初期化完了
+2025-08-04 11:25:54 - INFO - __main__ - 🎮 対話モード開始
+2025-08-04 11:25:54 - INFO - __main__ - ----------------------------------------
+2025-08-04 11:33:00 - INFO - twitcasting_monitor - 実監視開始
+2025-08-04 11:33:06 - INFO - twitcasting_monitor - 監視ループ開始
+2025-08-04 11:33:06 - INFO - twitcasting_monitor - 配信状態変化: c unknown -> live
+2025-08-04 11:33:06 - INFO - twitcasting_monitor - 🔴 録画開始トリガー: c
+2025-08-04 11:33:06 - INFO - authenticated_recording - 🔐 認証付き録画開始: c
+2025-08-04 11:33:06 - INFO - twitcasting_monitor - 配信状態変化: vau0307 unknown -> live
+2025-08-04 11:33:06 - INFO - twitcasting_monitor - 🔴 録画開始トリガー: vau0307
+2025-08-04 11:33:06 - INFO - authenticated_recording - 🔐 認証付き録画開始: vau0307
+2025-08-04 11:33:06 - INFO - twitcasting_monitor - 配信状態変化: c:kutuna_ unknown -> live
+2025-08-04 11:33:06 - INFO - twitcasting_monitor - 🔴 録画開始トリガー: c:kutuna_
+2025-08-04 11:33:06 - INFO - authenticated_recording - 🔐 認証付き録画開始: c:kutuna_
+2025-08-04 11:33:07 - INFO - authenticated_recording - ✅ ブラウザ起動完了（ログイン状態維持）
+2025-08-04 11:33:07 - ERROR - authenticated_recording - ❌ 認証付き録画エラー: https://twitcasting.tv/vau0307 - BrowserType.launch_persistent_context: Target page, context or browser has been closed
+Browser logs:
+
+<launching> C:\Users\81904\AppData\Local\ms-playwright\chromium-1169\chrome-win\chrome.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AcceptCHFrame,AutoExpandDetailsElement,AvoidUnnecessaryBeforeUnloadCheckSync,CertificateTransparencyComponentUpdater,DeferRendererTasksAfterInput,DestroyProfileOnBrowserClose,DialMediaRouteProvider,ExtensionManifestV2Disabled,GlobalMediaControls,HttpsUpgrades,ImprovedCookieControls,LazyFrameLoading,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --enable-automation --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --no-sandbox --disable-blink-features=AutomationControlled --no-first-run --disable-dev-shm-usage --user-data-dir=C:\Users\81904\Desktop\RakurekoTwitCasting\data\browser_profile --remote-debugging-pipe about:blank
+<launched> pid=1200
+Call log:
+  - <launching> C:\Users\81904\AppData\Local\ms-playwright\chromium-1169\chrome-win\chrome.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AcceptCHFrame,AutoExpandDetailsElement,AvoidUnnecessaryBeforeUnloadCheckSync,CertificateTransparencyComponentUpdater,DeferRendererTasksAfterInput,DestroyProfileOnBrowserClose,DialMediaRouteProvider,ExtensionManifestV2Disabled,GlobalMediaControls,HttpsUpgrades,ImprovedCookieControls,LazyFrameLoading,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --enable-automation --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --no-sandbox --disable-blink-features=AutomationControlled --no-first-run --disable-dev-shm-usage --user-data-dir=C:\Users\81904\Desktop\RakurekoTwitCasting\data\browser_profile --remote-debugging-pipe about:blank
+  - <launched> pid=1200
+
+2025-08-04 11:33:07 - ERROR - twitcasting_monitor - ❌ 録画開始失敗: vau0307
+2025-08-04 11:33:07 - ERROR - authenticated_recording - ❌ 認証付き録画エラー: https://twitcasting.tv/c:kutuna_ - BrowserType.launch_persistent_context: Target page, context or browser has been closed
+Browser logs:
+
+<launching> C:\Users\81904\AppData\Local\ms-playwright\chromium-1169\chrome-win\chrome.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AcceptCHFrame,AutoExpandDetailsElement,AvoidUnnecessaryBeforeUnloadCheckSync,CertificateTransparencyComponentUpdater,DeferRendererTasksAfterInput,DestroyProfileOnBrowserClose,DialMediaRouteProvider,ExtensionManifestV2Disabled,GlobalMediaControls,HttpsUpgrades,ImprovedCookieControls,LazyFrameLoading,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --enable-automation --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --no-sandbox --disable-blink-features=AutomationControlled --no-first-run --disable-dev-shm-usage --user-data-dir=C:\Users\81904\Desktop\RakurekoTwitCasting\data\browser_profile --remote-debugging-pipe about:blank
+<launched> pid=15592
+Call log:
+  - <launching> C:\Users\81904\AppData\Local\ms-playwright\chromium-1169\chrome-win\chrome.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AcceptCHFrame,AutoExpandDetailsElement,AvoidUnnecessaryBeforeUnloadCheckSync,CertificateTransparencyComponentUpdater,DeferRendererTasksAfterInput,DestroyProfileOnBrowserClose,DialMediaRouteProvider,ExtensionManifestV2Disabled,GlobalMediaControls,HttpsUpgrades,ImprovedCookieControls,LazyFrameLoading,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --enable-automation --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --no-sandbox --disable-blink-features=AutomationControlled --no-first-run --disable-dev-shm-usage --user-data-dir=C:\Users\81904\Desktop\RakurekoTwitCasting\data\browser_profile --remote-debugging-pipe about:blank
+  - <launched> pid=15592
+
+2025-08-04 11:33:07 - ERROR - twitcasting_monitor - ❌ 録画開始失敗: c:kutuna_
+2025-08-04 11:33:07 - INFO - twitcasting_monitor - 配信状態変化: komachik1221 unknown -> live
+2025-08-04 11:33:07 - INFO - twitcasting_monitor - 🔴 録画開始トリガー: komachik1221
+2025-08-04 11:33:07 - INFO - authenticated_recording - 🔐 認証付き録画開始: komachik1221
+2025-08-04 11:33:08 - INFO - root - ログ管理テスト成功
+2025-08-04 11:34:57 - INFO - root - URL追加成功: https://twitcasting.tv/g:117191215409354941008
+2025-08-04 11:34:57 - INFO - twitcasting_monitor - 監視対象追加: broadcaster
+2025-08-04 11:35:09 - INFO - root - ログ管理テスト成功
+2025-08-04 13:25:05 - INFO - root - ログシステム初期化完了
+2025-08-04 13:25:05 - INFO - __main__ - ============================================================
+2025-08-04 13:25:05 - INFO - __main__ - 🎬 ラクロク TwitCasting v2.1 起動中...
+2025-08-04 13:25:05 - INFO - __main__ - ============================================================
+2025-08-04 13:25:05 - INFO - __main__ - 🔍 依存関係チェック中...
+2025-08-04 13:25:07 - WARNING - __main__ - ❌ required: 不明なエラー
+2025-08-04 13:25:07 - WARNING - __main__ - ❌ optional: 不明なエラー
+2025-08-04 13:25:07 - WARNING - __main__ - ❌ system: 不明なエラー
+2025-08-04 13:25:07 - INFO - __main__ - ✅ URL解析エンジン初期化完了
+2025-08-04 13:25:07 - ERROR - __main__ - ❌ 初期化エラー: unindent does not match any outer indentation level (authenticated_recording.py, line 33)
+Traceback (most recent call last):
+  File "C:\Users\81904\Desktop\RakurekoTwitCasting\main.py", line 97, in initialize
+    from authenticated_recording import AuthenticatedRecordingEngine
+  File "C:\Users\81904\Desktop\RakurekoTwitCasting\src\authenticated_recording.py", line 33
+    async def _wait_for_stream_start_with_retry(self, page: Page, session: RecordingSession, 
+                                                                                             ^
+IndentationError: unindent does not match any outer indentation level
+2025-08-04 13:25:07 - INFO - __main__ - 🛑 終了処理開始...

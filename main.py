@@ -1,582 +1,1053 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-main.py - ラクロク TwitCasting 統合実行ファイル
-限定配信対応 TwitCasting 自動録画システム
+main.py - RakurekoTwitCasting Phase 1認証フロー修正版
+限定配信録画対応の緊急修正
 """
 
 import asyncio
-import argparse
-import logging
 import sys
 import os
-import time
+import logging
 import signal
-import threading
+import subprocess
 from pathlib import Path
+from typing import Optional, List, Dict, Any, Protocol
 from datetime import datetime
+from dataclasses import dataclass
+import argparse
 
-# 環境変数読み込み
+# ログ設定
+def setup_logging(log_level: str = "INFO") -> logging.Logger:
+    """最適化ログシステム"""
+    numeric_level = getattr(logging, log_level.upper(), logging.INFO)
+    
+    # ログフォーマット
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(name)s - %(message)s')
+    
+    # ルートロガー設定
+    root_logger = logging.getLogger()
+    root_logger.setLevel(logging.DEBUG)
+    
+    # 既存ハンドラークリア
+    if root_logger.hasHandlers():
+        root_logger.handlers.clear()
+    
+    # ファイルハンドラー
+    file_handler = logging.FileHandler('rakureko_twitcasting.log', encoding='utf-8')
+    file_handler.setLevel(logging.DEBUG)
+    file_handler.setFormatter(formatter)
+    root_logger.addHandler(file_handler)
+    
+    # コンソールハンドラー
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(numeric_level)
+    console_handler.setFormatter(formatter)
+    root_logger.addHandler(console_handler)
+    
+    logger = logging.getLogger('**main**')
+    logger.info("リファクタリング版ログシステム初期化完了")
+    return logger
+
+logger = setup_logging()
+
+# プロジェクトのsrcディレクトリをパスに追加
+project_root = Path(__file__).parent
+src_path = project_root / "src"
+sys.path.insert(0, str(src_path))
+
+# 設定・依存関係インポート
 try:
-    from dotenv import load_dotenv
-    load_dotenv()
-except ImportError:
-    print("⚠️ python-dotenv未インストール: pip install python-dotenv")
-
-# srcディレクトリをPythonパスに追加
-src_dir = Path(__file__).parent / "src"
-if src_dir.exists():
-    sys.path.insert(0, str(src_dir))
-
-# 自作モジュールインポート
-try:
-    from config_core import ConfigManager, URLManager, DependencyChecker, LogManager, SystemMonitor
-    # その他のモジュールは後でインポート（循環インポート回避）
+    from config_core import SystemConfig, ConfigManager, DependencyChecker
+    logger.info("✅ 正規SystemConfig統合完了")
 except ImportError as e:
-    print(f"❌ モジュールインポートエラー: {e}")
-    print("srcフォルダに必要なファイルが配置されているか確認してください")
+    logger.error(f"❌ config_core インポートエラー: {e}")
     sys.exit(1)
 
-class RakurekoMain:
-    """ラクロク メインアプリケーション"""
+# プロトコル定義（疎結合化）
+class RecordingEngineProtocol(Protocol):
+    """録画エンジンプロトコル（インターフェース）"""
+    async def start_recording(self, url: str, options: Optional[Dict] = None) -> bool: ...
+    async def stop_recording(self, url: str) -> bool: ...
+    def get_active_recordings(self) -> Dict[str, Any]: ...
+    async def cleanup(self) -> None: ...
+
+class URLAnalyzerProtocol(Protocol):
+    """URL解析エンジンプロトコル"""
+    async def analyze_url(self, url: str) -> Dict[str, Any]: ...
+    async def cleanup(self) -> None: ...
+
+class AuthenticatedRecorderProtocol(Protocol):
+    """認証録画エンジンプロトコル"""
+    async def start_authenticated_recording(self, url: str, options: Any) -> bool: ...
+    def get_active_recordings(self) -> Dict[str, Any]: ...
+    async def shutdown(self) -> None: ...
+
+# 状態管理の分離
+@dataclass
+class SystemState:
+    """システム状態管理（分離された状態クラス）"""
+    running: bool = True
+    daemon_mode: bool = False
+    initialization_complete: bool = False
+    shutdown_in_progress: bool = False
+    system_start_time: datetime = datetime.now()
     
-    def __init__(self, args):
-        self.args = args
-        self.base_dir = Path(args.config_dir) if args.config_dir else Path.cwd()
+    def is_operational(self) -> bool:
+        """システムが運用可能か"""
+        return self.running and self.initialization_complete and not self.shutdown_in_progress
+
+@dataclass
+class RecordingSessionInfo:
+    """録画セッション情報（責務を明確化）"""
+    url: str
+    user_id: str
+    session_id: str
+    start_time: datetime
+    engine_type: str = "auto"  # authenticated/basic/auto
+    status: str = "initializing"
+    
+    def get_duration(self) -> str:
+        """録画時間取得"""
+        duration = datetime.now() - self.start_time
+        return str(duration).split('.')[0]
+
+# Orchestrator化されたメインアプリケーション
+class RakurekoTwitCastingOrchestrator:
+    """
+    Phase 1認証フロー修正版オーケストレーター
+    - 限定配信録画に特化した修正
+    - auth_core統合の最適化
+    """
+    
+    def __init__(self, system_config: SystemConfig):
+        self.system_config = system_config
+        self.state = SystemState()
         
-        # 設定管理初期化（最初に実行）
-        self.config_manager = ConfigManager()
-        self.system_config = self.config_manager.get_system_config()
+        # エンジン参照（プロトコルベース）
+        self.config_manager: Optional[ConfigManager] = None
+        self.url_analyzer: Optional[URLAnalyzerProtocol] = None
+        self.authenticated_recorder: Optional[AuthenticatedRecorderProtocol] = None
+        self.recording_engine: Optional[RecordingEngineProtocol] = None
+        self.dependency_checker: Optional[DependencyChecker] = None
         
-        # ログ初期化（SystemConfigを渡す）
-        self.log_manager = LogManager(self.system_config)
-        self.logger = logging.getLogger(__name__)
+        # セッション管理をシンプル化
+        self.active_sessions: Dict[str, RecordingSessionInfo] = {}
+        self.background_tasks: List[asyncio.Task] = []
         
-        # コンポーネント初期化
-        self.config = None
-        self.auth = None
-        self.url_manager = None
-        self.recording_engine = None
-        self.monitor = None
-        self.system_monitor = None
+        # シグナルハンドラー
+        try:
+            signal.signal(signal.SIGINT, self._signal_handler)
+            signal.signal(signal.SIGTERM, self._signal_handler)
+        except (ValueError, AttributeError):
+            logger.warning("シグナルハンドラー設定スキップ（非コンソール環境）")
         
-        # 制御フラグ
-        self.running = False
-        self.shutdown_event = threading.Event()
-        
-        # シグナルハンドラー設定
-        signal.signal(signal.SIGINT, self._signal_handler)
-        signal.signal(signal.SIGTERM, self._signal_handler)
+        logger.info("🚀 オーケストレーター初期化完了")
     
     def _signal_handler(self, signum, frame):
         """シグナルハンドラー"""
-        self.logger.info(f"シグナル {signum} 受信。終了処理開始...")
-        self.shutdown_event.set()
+        if self.state.shutdown_in_progress:
+            return
+        
+        logger.info(f"🛑 終了シグナル受信: {signum}")
+        self.state.running = False
     
     async def initialize(self) -> bool:
-        """システム初期化"""
+        """システム初期化（オーケストレーション）"""
+        logger.info("=" * 80)
+        logger.info("🎬 RakurekoTwitCasting 完全リファクタリング版 初期化開始")
+        logger.info("=" * 80)
+        
         try:
-            self.logger.info("="*60)
-            self.logger.info("🎬 ラクロク TwitCasting v2.0 起動中...")
-            self.logger.info("="*60)
-            
-            # 設定管理は既に初期化済み
-            self.config = self.config_manager
-            self.logger.info("✅ 設定管理初期化完了")
-            
-            # 依存関係チェック
+            # Phase 1: 依存関係チェック
+            logger.info("📋 Phase 1: 依存関係チェック")
             if not await self._check_dependencies():
                 return False
             
-            # 他のモジュールを遅延インポート
-            try:
-                from auth_core import TwitCastingAuth, LimitedStreamAuth
-                from recording_engine import RecordingEngine, RecordingMethod
-                from twitcasting_monitor import TwitCastingMonitor, StreamStatus
-                
-                # 認証管理初期化
-                self.auth = TwitCastingAuth(self.base_dir)
-                self.logger.info("✅ 認証管理初期化完了")
-                
-                # URL管理初期化
-                self.url_manager = URLManager(self.config)
-                self.logger.info("✅ URL管理初期化完了")
-                
-                # 録画エンジン初期化（認証付き対応）
-                try:
-                    # 認証付き録画エンジンを試行
-                    from authenticated_recording import AuthenticatedRecordingEngine
-                    self.recording_engine = AuthenticatedRecordingEngine(self.config, self.system_config)
-                    self.logger.info("✅ 認証付き録画エンジン初期化完了")
-                except ImportError:
-                    # 通常の録画エンジンにフォールバック
-                    self.recording_engine = RecordingEngine(self.config, self.auth)
-                    self.logger.info("✅ 録画エンジン初期化完了")
-                except Exception as e:
-                    self.logger.warning(f"⚠️ 録画エンジン初期化失敗: {e}")
-                    self.logger.info("録画機能なしで続行します")
-                    self.recording_engine = None
-                
-                # 監視システム初期化
-                try:
-                    self.monitor = TwitCastingMonitor(self.config, self.auth, self.recording_engine)
-                    self.logger.info("✅ 監視システム初期化完了")
-                except Exception as e:
-                    self.logger.warning(f"⚠️ 監視システム初期化失敗: {e}")
-                    self.logger.info("監視機能なしで続行します")
-                    self.monitor = None
-                
-            except ImportError as e:
-                self.logger.warning(f"⚠️ 一部モジュールが見つかりません: {e}")
-                self.logger.info("基本機能のみで続行します")
+            # Phase 2: 設定管理初期化
+            logger.info("📋 Phase 2: 設定管理初期化")
+            if not await self._initialize_config_manager():
+                return False
             
-            # システム監視初期化
-            self.system_monitor = SystemMonitor(self.system_config)
-            self.logger.info("✅ システム監視初期化完了")
+            # Phase 3: エンジン初期化（疎結合）
+            logger.info("📋 Phase 3: エンジン初期化")
+            await self._initialize_engines()
             
-            # 初期URL読み込み
-            await self._load_initial_urls()
+            # Phase 4: ディレクトリ準備
+            logger.info("📋 Phase 4: ディレクトリ準備")
+            self._ensure_directories()
             
-            # Cookie初期化（必要に応じて）
-            if not self.args.skip_auth and self.auth:
-                await self._initialize_auth()
+            # Phase 5: バックグラウンドタスク開始
+            logger.info("📋 Phase 5: バックグラウンドタスク開始")
+            await self._start_background_tasks()
             
-            self.logger.info("🚀 システム初期化完了")
+            self.state.initialization_complete = True
+            
+            # 初期化完了レポート
+            self._log_initialization_report()
+            
             return True
             
         except Exception as e:
-            self.logger.error(f"❌ 初期化エラー: {e}")
+            logger.error(f"❌ 初期化エラー: {e}", exc_info=True)
             return False
     
     async def _check_dependencies(self) -> bool:
         """依存関係チェック"""
-        self.logger.info("🔍 依存関係チェック中...")
-        
-        # DependencyCheckerを使用
-        deps_checker = DependencyChecker()
-        deps = await deps_checker.check_all_dependencies()
-        
-        missing_deps = []
-        
-        # 必須依存関係チェック
-        for name, result in deps.get('required', {}).items():
-            if result.get('available', False):
-                self.logger.info(f"✅ {name}: {result.get('version', 'OK')}")
-            else:
-                self.logger.error(f"❌ {name}: {result.get('error', '不明なエラー')}")
-                missing_deps.append(name)
-        
-        # オプション依存関係チェック
-        for name, result in deps.get('optional', {}).items():
-            if result.get('available', False):
-                self.logger.info(f"✅ {name} (オプション): {result.get('version', 'OK')}")
-            else:
-                self.logger.warning(f"⚠️ {name} (オプション): {result.get('error', '利用不可')}")
-        
-        if missing_deps:
-            self.logger.error(f"不足している依存関係: {', '.join(missing_deps)}")
-            self.logger.info("以下のコマンドでインストールしてください:")
-            for dep in missing_deps:
-                if dep == 'streamlink':
-                    self.logger.info("  pip install streamlink")
-                elif dep == 'yt-dlp':
-                    self.logger.info("  pip install yt-dlp")
-                elif dep == 'ffmpeg':
-                    self.logger.info("  https://ffmpeg.org/download.html からダウンロード")
-            
-            if not self.args.auto_install:
-                return False
-        
-        return True
-    
-    async def _load_initial_urls(self):
-        """初期URL読み込み"""
-        if not self.url_manager:
-            self.logger.warning("URL管理が利用できません")
-            return
-            
-        urls = self.url_manager.get_active_urls()
-        
-        if not urls and not self.args.headless:
-            self.logger.warning("監視対象URLが設定されていません")
-            # サンプルURL追加（デモ用）
-            sample_urls = [
-                "https://twitcasting.tv/c:vau1013",
-                "https://twitcasting.tv/vau0307"
-            ]
-            for url in sample_urls:
-                success = self.url_manager.add_url(url, f"サンプルURL: {url}")
-                if success:
-                    self.logger.info(f"サンプルURL追加: {url}")
-            urls = self.url_manager.get_active_urls()
-        
-        # 監視システムにURL追加
-        if self.monitor:
-            for url_entry in urls:
-                url = url_entry.get('url', '')
-                self.monitor.add_stream(url, None)  # パスワードは後で実装
-        
-        self.logger.info(f"📋 監視対象URL: {len(urls)}件")
-        for i, url_entry in enumerate(urls, 1):
-            url = url_entry.get('url', '')
-            username = url.split('/')[-1] if url else 'unknown'
-            self.logger.info(f"  {i}. {username}")
-    
-    async def _initialize_auth(self):
-        """認証初期化"""
-        self.logger.info("🔐 認証状態確認中...")
-        
         try:
-            if hasattr(self.auth, 'needs_refresh') and self.auth.needs_refresh():
-                self.logger.info("Cookie更新が必要です")
-                
-                headless = self.args.headless if hasattr(self.args, 'headless') else True
-                
-                if hasattr(self.auth, 'auto_refresh_if_needed'):
-                    success = await self.auth.auto_refresh_if_needed(headless)
-                    
-                    if success:
-                        self.logger.info("✅ Cookie更新成功")
-                    else:
-                        self.logger.warning("⚠️ Cookie更新失敗（一部機能が制限される可能性があります）")
-                else:
-                    self.logger.warning("⚠️ 自動認証機能が利用できません")
-            else:
-                self.logger.info("✅ 認証状態正常")
-        except Exception as e:
-            self.logger.warning(f"⚠️ 認証初期化エラー: {e}")
-    
-    async def run_interactive_mode(self):
-        """対話モード実行"""
-        self.logger.info("🎮 対話モード開始")
-        self.logger.info("-" * 40)
-        
-        print("\n📋 利用可能なコマンド:")
-        print("  start  - 監視開始")
-        print("  stop   - 監視停止") 
-        print("  add    - URL追加")
-        print("  auth-add - 年齢制限配信追加（ブラウザ認証付き）")
-        print("  list   - URL一覧")
-        print("  status - 状態確認")
-        print("  stats  - 統計情報")
-        print("  test   - システムテスト")
-        print("  quit   - 終了")
-        print()
-        
-        while not self.shutdown_event.is_set():
-            try:
-                command = input("ラクロク> ").strip().lower()
-                
-                if command == "start":
-                    await self._cmd_start()
-                elif command == "stop":
-                    await self._cmd_stop()
-                elif command == "add":
-                    await self._cmd_add_url()
-                elif command == "auth-add":
-                    await self._cmd_auth_add_url()
-                elif command == "list":
-                    await self._cmd_list_urls()
-                elif command == "status":
-                    await self._cmd_status()
-                elif command == "stats":
-                    await self._cmd_stats()
-                elif command == "test":
-                    await self._cmd_test()
-                elif command in ["quit", "exit", "q"]:
-                    break
-                elif command == "help":
-                    print("利用可能なコマンド: start, stop, add, auth-add, list, status, stats, test, quit")
-                else:
-                    print(f"不明なコマンド: {command}")
+            self.dependency_checker = DependencyChecker()
+            results = await self.dependency_checker.check_all_dependencies()
             
-            except (EOFError, KeyboardInterrupt):
+            # 必須依存関係チェック
+            critical_ok = all(
+                dep['available'] for dep in results.get('required', {}).values()
+            )
+            
+            if not critical_ok:
+                logger.error("❌ 必須依存関係不足")
+                return False
+            
+            logger.info("✅ 依存関係チェック完了")
+            return True
+            
+        except Exception as e:
+            logger.error(f"依存関係チェックエラー: {e}")
+            return False
+    
+    async def _initialize_config_manager(self) -> bool:
+        """設定管理初期化"""
+        try:
+            self.config_manager = ConfigManager()
+            
+            # 設定ファイル作成・検証
+            if not self.config_manager.config_file_exists():
+                await self.config_manager.create_default_config()
+            
+            await self.config_manager.load_config()
+            
+            validation_result = await self.config_manager.validate_config()
+            if not validation_result['valid']:
+                logger.warning(f"設定検証問題: {validation_result['issues']}")
+                await self.config_manager.auto_repair_config()
+            
+            logger.info("✅ 設定管理初期化完了")
+            return True
+            
+        except Exception as e:
+            logger.error(f"設定管理初期化エラー: {e}")
+            return False
+    
+    async def _initialize_engines(self):
+        """エンジン初期化（疎結合アプローチ）"""
+        # URL解析エンジン
+        try:
+            from url_analyzer import URLAnalyzer
+            self.url_analyzer = URLAnalyzer()
+            logger.info("✅ URL解析エンジン初期化完了")
+        except ImportError as e:
+            logger.warning(f"URL解析エンジン初期化失敗: {e}")
+        
+        # 認証録画エンジンの初期化改良
+        try:
+            from authenticated_recording import AuthenticatedRecordingEngine
+            self.authenticated_recorder = AuthenticatedRecordingEngine(
+                self.config_manager, 
+                self.system_config
+            )
+            logger.info("✅ 認証録画エンジン初期化完了")
+        except ImportError as e:
+            logger.error(f"❌ 認証録画エンジン初期化失敗: {e}")
+            logger.error("限定配信録画が利用できません")
+        
+        # 基本録画エンジン
+        try:
+            from recording_engine import RecordingEngine
+            if self.config_manager:
+                self.recording_engine = RecordingEngine(self.config_manager)
+                logger.info("✅ 基本録画エンジン初期化完了")
+        except ImportError as e:
+            logger.warning(f"基本録画エンジン初期化失敗: {e}")
+    
+    def _ensure_directories(self):
+        """ディレクトリ確保"""
+        try:
+            directories = [
+                self.system_config.recordings_dir,
+                self.system_config.data_dir,
+                self.system_config.logs_dir,
+                self.system_config.recordings_dir / "temp"
+            ]
+            
+            for directory in directories:
+                directory.mkdir(parents=True, exist_ok=True)
+            
+            logger.info(f"📁 ディレクトリ準備完了: recordings")
+            
+        except Exception as e:
+            logger.error(f"ディレクトリ作成エラー: {e}")
+    
+    async def _start_background_tasks(self):
+        """バックグラウンドタスク開始"""
+        # 統計更新タスク
+        stats_task = asyncio.create_task(self._periodic_stats_update())
+        self.background_tasks.append(stats_task)
+        
+        logger.info(f"🔄 バックグラウンドタスク開始: {len(self.background_tasks)}個")
+    
+    async def _periodic_stats_update(self):
+        """定期統計更新"""
+        while self.state.is_operational():
+            try:
+                await asyncio.sleep(60)
+                # 統計更新処理
+                logger.debug(f"📊 統計更新: アクティブセッション={len(self.active_sessions)}")
+            except asyncio.CancelledError:
                 break
             except Exception as e:
-                self.logger.error(f"コマンド実行エラー: {e}")
+                logger.error(f"統計更新エラー: {e}")
     
-    async def run_daemon_mode(self):
-        """デーモンモード実行"""
-        self.logger.info("🤖 デーモンモード開始")
-        
-        # 自動監視開始
-        if self.monitor:
-            self.monitor.start_monitoring()
-        
-        # システム監視ループ
-        while not self.shutdown_event.is_set():
-            try:
-                # システム状態更新
-                if self.system_monitor:
-                    status = self.system_monitor.get_status()
-                    self.logger.debug(f"システム状態: CPU {status.get('cpu_percent', 0):.1f}%")
+    def _log_initialization_report(self):
+        """初期化完了レポート"""
+        logger.info("🎉 初期化完了レポート:")
+        logger.info(f"  ⚙️ URL解析エンジン: {'✅' if self.url_analyzer else '❌'}")
+        logger.info(f"  🔐 認証録画エンジン: {'✅' if self.authenticated_recorder else '❌'}")
+        logger.info(f"  📹 基本録画エンジン: {'✅' if self.recording_engine else '❌'}")
+        logger.info(f"  🔧 設定管理: {'✅' if self.config_manager else '❌'}")
+        logger.info(f"  📊 システム状態: 運用可能")
+    
+    async def start_recording(self, url: str, options: Optional[Dict] = None) -> bool:
+        """録画開始（Phase 1認証フロー修正版）"""
+        try:
+            logger.info(f"🎬 録画開始要求: {url}")
+            
+            # 重複チェック
+            if any(session.url == url for session in self.active_sessions.values()):
+                print(f"⚠️ 既に録画中: {url}")
+                return False
+            
+            # 同時録画数制限
+            if len(self.active_sessions) >= self.system_config.max_concurrent_recordings:
+                print(f"⚠️ 同時録画数上限: {len(self.active_sessions)}/{self.system_config.max_concurrent_recordings}")
+                return False
+            
+            # URL解析による認証要件判定の改良
+            analysis_result = await self._analyze_url_if_available(url)
+            
+            # セッション情報作成
+            session = self._create_recording_session(url, analysis_result)
+            self.active_sessions[session.session_id] = session
+            
+            # 認証要件に基づく適切なエンジン選択
+            success = await self._delegate_recording_to_engine_improved(session, options, analysis_result)
+            
+            if success:
+                session.status = "recording"
+                print(f"✅ 録画開始成功: {session.user_id}")
+                logger.info(f"録画開始成功: {session.user_id} (エンジン: {session.engine_type})")
+                return True
+            else:
+                # 失敗時のクリーンアップ
+                del self.active_sessions[session.session_id]
+                print(f"❌ 録画開始失敗: {session.user_id}")
+                return False
                 
-                # 30秒待機
-                await asyncio.sleep(30)
+        except Exception as e:
+            logger.error(f"録画開始エラー: {url} - {e}", exc_info=True)
+            return False
+    
+    async def _analyze_url_if_available(self, url: str) -> Optional[Dict[str, Any]]:
+        """URL解析（利用可能な場合）"""
+        if not self.url_analyzer:
+            return None
+        
+        try:
+            print(f"🔍 URL解析中: {url}")
+            analysis = await self.url_analyzer.analyze_url(url)
+            
+            if analysis.get('valid'):
+                print(f"✅ URL解析完了: {analysis.get('broadcaster', 'Unknown')}")
+                return analysis
+            else:
+                print(f"❌ URL解析失敗: {analysis.get('error', 'Unknown error')}")
+                return None
+                
+        except Exception as e:
+            logger.warning(f"URL解析エラー（録画継続）: {e}")
+            return None
+    
+    def _create_recording_session(self, url: str, analysis_result: Optional[Dict]) -> RecordingSessionInfo:
+        """録画セッション作成"""
+        import time
+        
+        user_id = "unknown"
+        if analysis_result:
+            user_id = analysis_result.get('broadcaster', 'unknown')
+        else:
+            # フォールバック: URLからユーザーID抽出
+            import re
+            match = re.search(r'twitcasting\.tv/([^/\?]+)', url)
+            if match:
+                user_id = match.group(1)
+        
+        session_id = f"session_{int(time.time())}_{len(self.active_sessions)}"
+        
+        return RecordingSessionInfo(
+            url=url,
+            user_id=user_id,
+            session_id=session_id,
+            start_time=datetime.now()
+        )
+    
+    async def _delegate_recording_to_engine_improved(self, session: RecordingSessionInfo, 
+                                                   options: Optional[Dict], 
+                                                   analysis_result: Optional[Dict]) -> bool:
+        """改良されたエンジン委譲ロジック"""
+        # 認証要件判定の改良
+        requires_auth = self._determine_auth_requirement(analysis_result, session.url)
+        
+        logger.info(f"🔍 認証要件判定: {session.user_id} -> 認証{'必要' if requires_auth else '不要'}")
+        
+        # 認証録画エンジンを優先する戦略
+        if requires_auth:
+            if self.authenticated_recorder:
+                print("🔐 認証付き録画エンジン使用")
+                return await self._start_with_authenticated_engine(session, options)
+            else:
+                print("❌ 認証録画エンジンが利用できません（限定配信録画不可）")
+                # フォールバック: 基本エンジンで試行
+                if self.recording_engine:
+                    print("⚠️ 基本録画エンジンで試行（成功率低）")
+                    return await self._start_with_basic_engine(session, options)
+                return False
+        else:
+            # 通常配信: 基本エンジンを優先
+            if self.recording_engine:
+                print("📹 基本録画エンジン使用")
+                return await self._start_with_basic_engine(session, options)
+            elif self.authenticated_recorder:
+                print("🔐 認証付き録画エンジン使用（フォールバック）")
+                return await self._start_with_authenticated_engine(session, options)
+            else:
+                print("❌ 利用可能な録画エンジンがありません")
+                return False
+    
+    def _determine_auth_requirement(self, analysis_result: Optional[Dict], url: str) -> bool:
+        """認証要件判定の改良"""
+        # URL解析結果がある場合
+        if analysis_result:
+            return analysis_result.get('requires_auth', False)
+        
+        # URL解析結果がない場合のフォールバック判定
+        url_lower = url.lower()
+        
+        # グループ配信の判定
+        if '/g:' in url or 'group' in url_lower:
+            logger.info("🔍 グループ配信URLを検出 -> 認証必要")
+            return True
+        
+        # コミュニティ配信の判定
+        if '/c:' in url or 'community' in url_lower:
+            logger.info("🔍 コミュニティ配信URLを検出 -> 認証必要")
+            return True
+        
+        # その他の限定配信の可能性
+        limited_indicators = ['limited', 'private', 'member']
+        if any(indicator in url_lower for indicator in limited_indicators):
+            logger.info("🔍 限定配信URLを検出 -> 認証必要")
+            return True
+        
+        # デフォルトは通常配信
+        return False
+    
+    async def _start_with_authenticated_engine(self, session: RecordingSessionInfo, 
+                                             options: Optional[Dict]) -> bool:
+        """認証付きエンジンで録画開始"""
+        try:
+            from recording_options import RecordingOptions
+            
+            session.engine_type = "authenticated"
+            
+            # RecordingOptionsの適切な設定
+            recording_options = RecordingOptions(
+                confirmed_by_user=True,
+                headless=True,
+                quality="best",
+                session_name=session.session_id,
+                timeout_minutes=180,
+                max_retries=3
+            )
+            
+            # パスワード設定
+            if options and 'password' in options:
+                recording_options.password = options['password']
+                logger.info(f"🔑 パスワード設定済み: {session.user_id}")
+            
+            return await self.authenticated_recorder.start_authenticated_recording(
+                session.url, recording_options
+            )
+            
+        except Exception as e:
+            logger.error(f"認証付きエンジン録画エラー: {e}")
+            return False
+    
+    async def _start_with_basic_engine(self, session: RecordingSessionInfo, 
+                                     options: Optional[Dict]) -> bool:
+        """基本エンジンで録画開始"""
+        try:
+            session.engine_type = "basic"
+            
+            password = options.get('password') if options else None
+            return await self.recording_engine.start_recording(session.url, password)
+            
+        except Exception as e:
+            logger.error(f"基本エンジン録画エラー: {e}")
+            return False
+    
+    async def stop_recording(self, url: str) -> bool:
+        """録画停止（オーケストレーション）"""
+        try:
+            # セッション検索
+            target_session = None
+            for session in self.active_sessions.values():
+                if session.url == url:
+                    target_session = session
+                    break
+            
+            if not target_session:
+                print(f"⚠️ 指定URLの録画が見つかりません: {url}")
+                return False
+            
+            logger.info(f"⏹️ 録画停止要求: {target_session.user_id}")
+            target_session.status = "stopping"
+            
+            # エンジン別停止処理
+            success = await self._delegate_stop_to_engine(target_session)
+            
+            # セッション後処理
+            if success:
+                target_session.status = "stopped"
+                print(f"✅ 録画停止完了: {target_session.user_id}")
+            else:
+                target_session.status = "stop_failed"
+                print(f"❌ 録画停止失敗: {target_session.user_id}")
+            
+            # アクティブセッションから削除
+            del self.active_sessions[target_session.session_id]
+            
+            return success
+            
+        except Exception as e:
+            logger.error(f"録画停止エラー: {url} - {e}")
+            return False
+    
+    async def _delegate_stop_to_engine(self, session: RecordingSessionInfo) -> bool:
+        """停止をエンジンに委譲"""
+        try:
+            if session.engine_type == "authenticated" and self.authenticated_recorder:
+                return await self.authenticated_recorder.stop_recording(session.url)
+            elif session.engine_type == "basic" and self.recording_engine:
+                return await self.recording_engine.stop_recording(session.url)
+            else:
+                return True  # 基本的には成功とみなす
+                
+        except Exception as e:
+            logger.error(f"エンジン停止委譲エラー: {e}")
+            return False
+    
+    def list_recordings(self):
+        """録画一覧表示"""
+        if not self.active_sessions:
+            print("📭 実行中の録画はありません")
+            return
+        
+        print("📋 実行中の録画一覧:")
+        print("=" * 70)
+        
+        for i, session in enumerate(self.active_sessions.values(), 1):
+            engine_icon = {"authenticated": "🔐", "basic": "📹", "auto": "⚙️"}.get(session.engine_type, "❓")
+            status_icon = {"recording": "🔴", "initializing": "🟡", "stopping": "🟠"}.get(session.status, "⚪")
+            
+            print(f"  {i}. {status_icon} {engine_icon} {session.user_id}")
+            print(f"     🔗 URL: {session.url}")
+            print(f"     ⏱️  経過時間: {session.get_duration()}")
+            print(f"     📊 状態: {session.status}")
+            print(f"     🎛️  エンジン: {session.engine_type}")
+            print("     " + "-" * 60)
+    
+    def show_status(self):
+        """システム状態表示"""
+        uptime = datetime.now() - self.state.system_start_time
+        uptime_str = str(uptime).split('.')[0]
+        
+        print("📊 RakurekoTwitCasting リファクタリング版 システム状態")
+        print("=" * 80)
+        
+        # システム基本情報
+        print("🔧 システム情報:")
+        print(f"  🏗️  アーキテクチャ: オーケストレーター型（疎結合）")
+        print(f"  ⏱️  稼働時間: {uptime_str}")
+        print(f"  🎬 実行中録画: {len(self.active_sessions)} / {self.system_config.max_concurrent_recordings}")
+        print(f"  📁 録画ディレクトリ: {self.system_config.recordings_dir}")
+        print(f"  📊 システム状態: {'✅ 運用中' if self.state.is_operational() else '❌ 異常'}")
+        
+        # エンジン統合状態
+        print("\n🛠️ エンジン統合状態:")
+        engines = [
+            ("URL解析エンジン", self.url_analyzer, "🔍"),
+            ("認証録画エンジン", self.authenticated_recorder, "🔐"),
+            ("基本録画エンジン", self.recording_engine, "📹"),
+            ("設定管理", self.config_manager, "🔧")
+        ]
+        
+        for name, engine, icon in engines:
+            status = "✅ 統合済み" if engine else "❌ 未統合"
+            print(f"  {icon} {name}: {status}")
+        
+        # バックグラウンドタスク
+        active_tasks = [task for task in self.background_tasks if not task.done()]
+        print(f"\n🔄 バックグラウンドタスク: {len(active_tasks)}個実行中")
+    
+    def show_help(self):
+        """ヘルプ表示"""
+        print("""
+🎌 RakurekoTwitCasting リファクタリング版 コマンド一覧
+
+📹 録画関連:
+  record <URL>              - 最適化録画開始（自動エンジン選択）
+  stop <URL>                - 指定URLの録画停止
+  list                      - 実行中録画一覧
+  
+🔍 分析・管理:
+  analyze <URL>             - URL解析
+  status                    - システム状態表示
+  
+🛠️ システム管理:
+  test                      - システムテスト
+  cleanup                   - 一時ファイルクリーンアップ
+  
+🆘 ヘルプ・終了:
+  help                      - このヘルプ
+  quit/exit                 - システム終了
+
+💡 リファクタリング版特徴:
+  - オーケストレーター型アーキテクチャ
+  - プロトコルベース疎結合
+  - 責務分離による保守性向上
+        """)
+    
+    async def analyze_url(self, url: str):
+        """URL解析"""
+        if not self.url_analyzer:
+            print("❌ URL解析エンジンが利用できません")
+            return
+        
+        try:
+            print(f"🔍 URL解析実行: {url}")
+            analysis = await self.url_analyzer.analyze_url(url)
+            
+            print("📋 解析結果:")
+            print(f"  📺 配信者: {analysis.get('broadcaster', 'Unknown')}")
+            print(f"  📊 配信種別: {analysis.get('stream_type', 'Unknown')}")
+            print(f"  🔴 配信状態: {'ライブ中' if analysis.get('is_live') else 'オフライン'}")
+            print(f"  🔒 制限事項: {analysis.get('restrictions', 'なし')}")
+            
+            if analysis.get('requires_auth'):
+                print("  🔐 認証が必要な配信です")
+            
+        except Exception as e:
+            logger.error(f"URL解析エラー: {e}")
+            print(f"❌ URL解析失敗: {e}")
+    
+    async def run_system_test(self):
+        """システムテスト"""
+        print("🧪 リファクタリング版システムテスト開始")
+        print("=" * 60)
+        
+        tests = [
+            ("システム状態", self._test_system_state()),
+            ("エンジン統合", self._test_engine_integration()),
+            ("設定管理", self._test_config_management()),
+            ("ディレクトリ構造", self._test_directory_structure())
+        ]
+        
+        results = []
+        for test_name, test_coro in tests:
+            try:
+                print(f"🔍 テスト実行: {test_name}")
+                result = await test_coro
+                
+                status = "✅ 合格" if result['passed'] else "❌ 不合格"
+                print(f"  {status}: {result.get('message', 'テスト完了')}")
+                results.append(result['passed'])
                 
             except Exception as e:
-                self.logger.error(f"デーモンループエラー: {e}")
-                await asyncio.sleep(60)
-    
-    async def _cmd_start(self):
-        """監視開始コマンド"""
-        if not self.monitor:
-            print("❌ 監視システムが利用できません")
-            return
-            
-        if not hasattr(self.monitor, 'monitoring') or not self.monitor.monitoring:
-            if hasattr(self.monitor, 'start_monitoring'):
-                self.monitor.start_monitoring()
-                print("✅ 監視開始")
-            else:
-                print("❌ 監視開始機能が利用できません")
+                print(f"  ❌ テスト例外: {e}")
+                results.append(False)
+        
+        # 結果サマリー
+        passed = sum(results)
+        total = len(results)
+        success_rate = passed / total if total > 0 else 0
+        
+        print(f"\n📊 テスト結果: {passed}/{total} ({success_rate:.1%})")
+        
+        if success_rate >= 0.9:
+            print("🎉 リファクタリング版システムは完璧に動作しています！")
+        elif success_rate >= 0.7:
+            print("✅ システムは正常動作中")
         else:
-            print("⚠️ 既に監視中です")
+            print("❌ システムに問題があります")
     
-    async def _cmd_stop(self):
-        """監視停止コマンド"""
-        if not self.monitor:
-            print("❌ 監視システムが利用できません")
-            return
-            
-        if hasattr(self.monitor, 'monitoring') and self.monitor.monitoring:
-            if hasattr(self.monitor, 'stop_monitoring'):
-                self.monitor.stop_monitoring()
-                print("✅ 監視停止")
-            else:
-                print("❌ 監視停止機能が利用できません")
-        else:
-            print("⚠️ 監視していません")
+    async def _test_system_state(self):
+        """システム状態テスト"""
+        return {
+            'passed': self.state.is_operational(),
+            'message': f'システム状態: {"運用可能" if self.state.is_operational() else "異常"}'
+        }
     
-    async def _cmd_add_url(self):
-        """URL追加コマンド"""
-        if not self.url_manager:
-            print("❌ URL管理が利用できません")
-            return
-            
+    async def _test_engine_integration(self):
+        """エンジン統合テスト"""
+        integrated_count = sum([
+            1 if self.url_analyzer else 0,
+            1 if self.authenticated_recorder else 0,
+            1 if self.recording_engine else 0,
+            1 if self.config_manager else 0
+        ])
+        
+        integration_rate = integrated_count / 4
+        
+        return {
+            'passed': integration_rate >= 0.5,
+            'message': f'エンジン統合率: {integration_rate:.1%} ({integrated_count}/4)'
+        }
+    
+    async def _test_config_management(self):
+        """設定管理テスト"""
+        return {
+            'passed': self.config_manager is not None,
+            'message': f'設定管理: {"正常" if self.config_manager else "未統合"}'
+        }
+    
+    async def _test_directory_structure(self):
+        """ディレクトリ構造テスト"""
         try:
-            url = input("TwitCasting URL: ").strip()
-            description = input("説明（任意）: ").strip()
+            required_dirs = [
+                self.system_config.recordings_dir,
+                self.system_config.data_dir,
+                self.system_config.logs_dir
+            ]
             
-            if self.url_manager.add_url(url, description):
-                if self.monitor and hasattr(self.monitor, 'add_stream'):
-                    self.monitor.add_stream(url, None)
-                print(f"✅ URL追加: {url.split('/')[-1]}")
-            else:
-                print("❌ URL追加失敗")
-        except (EOFError, KeyboardInterrupt):
-            print("\nキャンセルしました")
-    
-    async def _cmd_auth_add_url(self):
-        """年齢制限配信追加コマンド（ブラウザ認証付き）"""
-        try:
-            url = input("年齢制限配信URL: ").strip()
-            password = input("限定配信パスワード（不要な場合はEnter）: ").strip()
+            all_exist = all(d.exists() for d in required_dirs)
             
-            # 認証付き録画エンジンを使用
-            try:
-                from authenticated_recording import AuthenticatedRecordingEngine
-                auth_engine = AuthenticatedRecordingEngine(self.config_manager, self.system_config)
-                
-                print("🔐 ブラウザが開きます。必要に応じてTwitCastingにログインしてください...")
-                print("⏰ 配信開始を待機します...")
-                
-                success = await auth_engine.start_authenticated_recording(
-                    url, 
-                    password if password else None
-                )
-                
-                if success:
-                    print(f"✅ 年齢制限配信録画開始: {url}")
-                else:
-                    print(f"❌ 録画開始失敗: {url}")
-                    
-            except ImportError:
-                print("❌ 認証付き録画エンジンが利用できません")
-                print("先に以下をインストールしてください:")
-                print("pip install playwright")
-                print("playwright install chromium")
-                
-        except (EOFError, KeyboardInterrupt):
-            print("\nキャンセルしました")
-    
-    async def _cmd_list_urls(self):
-        """URL一覧コマンド"""
-        if not self.url_manager:
-            print("❌ URL管理が利用できません")
-            return
-            
-        urls = self.url_manager.get_active_urls()
-        if urls:
-            print(f"\n📋 監視対象URL ({len(urls)}件):")
-            for i, url_entry in enumerate(urls, 1):
-                url = url_entry.get('url', '')
-                description = url_entry.get('description', '')
-                username = url.split('/')[-1] if url else 'unknown'
-                desc_text = f" - {description}" if description else ""
-                print(f"  {i}. {username}{desc_text}")
-        else:
-            print("📋 監視対象URLはありません")
-    
-    async def _cmd_status(self):
-        """状態確認コマンド"""
-        print(f"\n📊 システム状態:")
-        
-        # 基本状態
-        monitoring_status = "🟢 実行中" if (self.monitor and hasattr(self.monitor, 'monitoring') and self.monitor.monitoring) else "🔴 停止中"
-        print(f"  監視状態: {monitoring_status}")
-        
-        # システム監視状態
-        if self.system_monitor:
-            status = self.system_monitor.get_status()
-            print(f"  CPU使用率: {status.get('cpu_percent', 0):.1f}%")
-            print(f"  メモリ使用率: {status.get('memory_percent', 0):.1f}%")
-            print(f"  ディスク空き容量: {status.get('disk_free_gb', 0):.1f}GB")
-        
-        # URL状態
-        if self.url_manager:
-            urls = self.url_manager.get_active_urls()
-            print(f"  監視URL数: {len(urls)}件")
-    
-    async def _cmd_stats(self):
-        """統計情報コマンド"""
-        print(f"\n📈 統計情報:")
-        
-        if self.url_manager:
-            urls = self.url_manager.get_active_urls()
-            print(f"  総監視配信: {len(urls)}件")
-        
-        if self.system_monitor:
-            status = self.system_monitor.get_status()
-            print(f"  最終確認: {status.get('last_check', '未確認')}")
-    
-    async def _cmd_test(self):
-        """システムテストコマンド"""
-        print("\n🧪 システムテスト実行中...")
-        
-        # config_coreのテスト関数を呼び出し
-        try:
-            from config_core import test_all_components
-            result = await test_all_components()
-            if result:
-                print("✅ システムテスト完了")
-            else:
-                print("❌ システムテストで問題が検出されました")
+            return {
+                'passed': all_exist,
+                'message': f'ディレクトリ構造: {"正常" if all_exist else "不完全"}'
+            }
         except Exception as e:
-            print(f"❌ テスト実行エラー: {e}")
+            return {
+                'passed': False,
+                'message': f'ディレクトリテストエラー: {e}'
+            }
+    
+    async def interactive_mode(self):
+        """リファクタリング版対話モード"""
+        print("🎌 RakurekoTwitCasting リファクタリング版へようこそ！")
+        print("🏗️ オーケストレーター型アーキテクチャで動作中")
+        print("💡 'help' でコマンド一覧を表示")
+        print()
+        
+        while self.state.running:
+            try:
+                command = input("ラクロク[RF]> ").strip()
+                
+                if not command:
+                    continue
+                
+                parts = command.split()
+                cmd = parts[0].lower()
+                args = parts[1:] if len(parts) > 1 else []
+                
+                # システム終了
+                if cmd in ['quit', 'exit']:
+                    print("👋 リファクタリング版システムを終了します...")
+                    break
+                
+                # ヘルプ
+                elif cmd == 'help':
+                    self.show_help()
+                
+                # 録画開始
+                elif cmd == 'record':
+                    if not args:
+                        print("❌ URLを指定してください")
+                        print("   例: record https://twitcasting.tv/user_id")
+                        continue
+                    
+                    url = args[0]
+                    options = {}
+                    
+                    # パスワードオプション処理
+                    if '--password' in args:
+                        try:
+                            pwd_index = args.index('--password')
+                            if pwd_index + 1 < len(args):
+                                options['password'] = args[pwd_index + 1]
+                        except (ValueError, IndexError):
+                            pass
+                    
+                    await self.start_recording(url, options)
+                
+                # 録画停止
+                elif cmd == 'stop':
+                    if not args:
+                        print("❌ 停止するURLを指定してください")
+                        continue
+                    
+                    url = args[0]
+                    await self.stop_recording(url)
+                
+                # URL解析
+                elif cmd == 'analyze':
+                    if not args:
+                        print("❌ 解析するURLを指定してください")
+                        continue
+                    
+                    url = args[0]
+                    await self.analyze_url(url)
+                
+                # 録画一覧
+                elif cmd == 'list':
+                    self.list_recordings()
+                
+                # システム状態
+                elif cmd == 'status':
+                    self.show_status()
+                
+                # システムテスト
+                elif cmd == 'test':
+                    await self.run_system_test()
+                
+                # クリーンアップ
+                elif cmd == 'cleanup':
+                    await self._cleanup_temp_files()
+                    print("✅ 一時ファイルクリーンアップ完了")
+                
+                # 不明なコマンド
+                else:
+                    print(f"❌ 不明なコマンド: {cmd}")
+                    print("💡 'help' でコマンド一覧を確認してください")
+                
+            except KeyboardInterrupt:
+                print("\n👋 終了中...")
+                break
+            except Exception as e:
+                logger.error(f"対話モードエラー: {e}", exc_info=True)
+                print(f"❌ コマンド実行エラー: {e}")
+    
+    async def _cleanup_temp_files(self):
+        """一時ファイルクリーンアップ"""
+        try:
+            temp_dir = self.system_config.recordings_dir / "temp"
+            if temp_dir.exists():
+                import shutil
+                shutil.rmtree(temp_dir, ignore_errors=True)
+                temp_dir.mkdir(exist_ok=True)
+            
+            logger.info("🧹 一時ファイルクリーンアップ完了")
+            
+        except Exception as e:
+            logger.error(f"一時ファイルクリーンアップエラー: {e}")
     
     async def shutdown(self):
-        """終了処理"""
-        self.logger.info("🛑 終了処理開始...")
+        """リファクタリング版システム終了処理"""
+        if self.state.shutdown_in_progress:
+            logger.warning("既に終了処理中です")
+            return
+        
+        self.state.shutdown_in_progress = True
+        logger.info("🛑 リファクタリング版システム終了処理開始...")
         
         try:
-            # 監視停止
-            if self.monitor and hasattr(self.monitor, 'stop_monitoring'):
-                self.monitor.stop_monitoring()
+            # バックグラウンドタスク停止
+            logger.info("🔄 バックグラウンドタスク停止中...")
+            for task in self.background_tasks:
+                if not task.done():
+                    task.cancel()
+                    try:
+                        await asyncio.wait_for(task, timeout=5.0)
+                    except (asyncio.CancelledError, asyncio.TimeoutError):
+                        pass
             
-            # 録画エンジン停止
-            if self.recording_engine and hasattr(self.recording_engine, 'shutdown'):
-                if hasattr(self.recording_engine, 'shutdown'):
-                    if asyncio.iscoroutinefunction(self.recording_engine.shutdown):
-                        await self.recording_engine.shutdown()
-                    else:
-                        self.recording_engine.shutdown()
+            # エンジンのシャットダウン（プロトコルベース）
+            logger.info("🔧 エンジンシャットダウン中...")
             
-            # システム監視停止
-            if self.system_monitor and hasattr(self.system_monitor, 'stop_monitoring'):
-                await self.system_monitor.stop_monitoring()
+            if self.authenticated_recorder and hasattr(self.authenticated_recorder, 'shutdown'):
+                try:
+                    await self.authenticated_recorder.shutdown()
+                except Exception as e:
+                    logger.error(f"認証録画エンジンシャットダウンエラー: {e}")
+            
+            if self.recording_engine and hasattr(self.recording_engine, 'cleanup'):
+                try:
+                    await self.recording_engine.cleanup()
+                except Exception as e:
+                    logger.error(f"基本録画エンジンクリーンアップエラー: {e}")
+            
+            if self.url_analyzer and hasattr(self.url_analyzer, 'cleanup'):
+                try:
+                    await self.url_analyzer.cleanup()
+                except Exception as e:
+                    logger.error(f"URL解析エンジンクリーンアップエラー: {e}")
             
             # 設定保存
             if self.config_manager:
-                self.config_manager.save_system_config()
-                self.config_manager.save_recording_config()
-                self.config_manager.save_urls()
+                try:
+                    self.config_manager.save_all_configs()
+                    logger.info("💾 設定保存完了")
+                except Exception as e:
+                    logger.error(f"設定保存エラー: {e}")
             
-            self.logger.info("✅ 終了処理完了")
+            # 最終統計ログ
+            uptime = datetime.now() - self.state.system_start_time
+            logger.info("📊 最終統計:")
+            logger.info(f"  システム種別: オーケストレーター型リファクタリング版")
+            logger.info(f"  稼働時間: {uptime}")
+            logger.info(f"  処理セッション数: {len(self.active_sessions)}")
+            
+            logger.info("✅ リファクタリング版システム終了処理完了")
             
         except Exception as e:
-            self.logger.error(f"終了処理エラー: {e}")
+            logger.error(f"終了処理エラー: {e}", exc_info=True)
+        finally:
+            self.state.shutdown_in_progress = False
 
+# ===============================
+# コマンドライン引数処理
+# ===============================
 
-def parse_arguments():
-    """コマンドライン引数解析"""
-    parser = argparse.ArgumentParser(description="ラクロク TwitCasting 自動録画システム")
-    
-    parser.add_argument("--config-dir", help="設定ディレクトリパス")
-    parser.add_argument("--daemon", action="store_true", help="デーモンモード実行")
-    parser.add_argument("--headless", action="store_true", help="ヘッドレスモード（ブラウザ非表示）")
-    parser.add_argument("--skip-auth", action="store_true", help="認証初期化をスキップ")
-    parser.add_argument("--auto-install", action="store_true", help="不足パッケージの自動インストール")
-    parser.add_argument("--debug", action="store_true", help="デバッグモード")
-    
-    # URL管理コマンド
-    parser.add_argument("--add-url", help="URL追加して終了")
-    parser.add_argument("--list-urls", action="store_true", help="URL一覧表示して終了")
-    
-    return parser.parse_args()
+def create_argument_parser() -> argparse.ArgumentParser:
+    """リファクタリング版引数パーサー"""
+    parser = argparse.ArgumentParser(
+        description='RakurekoTwitCasting リファクタリング版（限定配信対応）',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Phase 1修正版特徴:
+  - 認証付き録画エンジンとauth_core統合
+  - グループ配信・年齢制限配信対応
+  - yt-dlp + Cookie方式実装
+  - エラーハンドリング強化
 
+使用例:
+  python main.py                              # 対話モード
+  python main.py test                         # システムテスト
+  python main.py https://twitcasting.tv/user  # 録画
+  python main.py https://twitcasting.tv/g:123 # グループ配信録画
+        """
+    )
+    
+    parser.add_argument('command', nargs='?', help='実行コマンド (test/URL等)')
+    parser.add_argument('--log-level', '-l', default='INFO',
+                       choices=['DEBUG', 'INFO', 'WARNING', 'ERROR'],
+                       help='ログレベル')
+    parser.add_argument('--max-concurrent', '-c', type=int, default=3,
+                       help='最大同時録画数')
+    parser.add_argument('--output-dir', '-o', default='./recordings',
+                       help='出力ディレクトリ')
+    parser.add_argument('--password', '-p', help='限定配信パスワード')
+    
+    return parser
+
+# ===============================
+# メイン関数
+# ===============================
 
 async def main():
-    """メイン関数"""
-    args = parse_arguments()
+    """Phase 1修正版メイン関数"""
+    # コマンドライン引数解析
+    parser = create_argument_parser()
+    args = parser.parse_args()
     
-    # デバッグモード
-    if args.debug:
-        logging.getLogger().setLevel(logging.DEBUG)
+    # ログレベル設定
+    global logger
+    logger = setup_logging(args.log_level)
     
-    # メインアプリケーション初期化
-    app = RakurekoMain(args)
+    try:
+        system_config = SystemConfig(
+            recordings_dir=Path(args.output_dir),
+            max_concurrent_recordings=args.max_concurrent,
+            log_level=args.log_level
+        )
+    except Exception as e:
+        logger.error(f"システム設定作成エラー: {e}")
+        return 1
+    
+    # オーケストレーター初期化
+    orchestrator = RakurekoTwitCastingOrchestrator(system_config)
     
     try:
         # システム初期化
-        if not await app.initialize():
-            print("❌ 初期化失敗")
+        logger.info("🚀 RakurekoTwitCasting リファクタリング版起動")
+        success = await orchestrator.initialize()
+        
+        if not success:
+            print("❌ システム初期化に失敗しました。詳細はログを確認してください。")
             return 1
         
-        # URL管理コマンド処理
-        if args.add_url:
-            if app.url_manager and app.url_manager.add_url(args.add_url):
-                print(f"✅ URL追加: {args.add_url}")
+        # コマンド処理
+        if args.command:
+            if args.command == 'test':
+                # システムテスト
+                await orchestrator.run_system_test()
+                
+            elif args.command.startswith('http'):
+                # 単一URL録画
+                options = {}
+                if args.password:
+                    options['password'] = args.password
+                    
+                success = await orchestrator.start_recording(args.command, options)
+                if success:
+                    print("✅ 録画を開始しました。Ctrl+Cで停止できます。")
+                    try:
+                        while orchestrator.state.running and orchestrator.active_sessions:
+                            await asyncio.sleep(1)
+                    except KeyboardInterrupt:
+                        print("\n📹 録画を停止します...")
+                        await orchestrator.stop_recording(args.command)
+                        
             else:
-                print(f"❌ URL追加失敗: {args.add_url}")
-            return 0
-        
-        if args.list_urls:
-            if app.url_manager:
-                urls = app.url_manager.get_active_urls()
-                if urls:
-                    print(f"監視対象URL ({len(urls)}件):")
-                    for i, url_entry in enumerate(urls, 1):
-                        url = url_entry.get('url', '')
-                        print(f"  {i}. {url}")
-                else:
-                    print("監視対象URLはありません")
-            else:
-                print("❌ URL管理が利用できません")
-            return 0
-        
-        # メイン実行
-        if args.daemon:
-            await app.run_daemon_mode()
+                print(f"❌ 不明なコマンド: {args.command}")
+                return 1
         else:
-            await app.run_interactive_mode()
+            # 対話モード
+            await orchestrator.interactive_mode()
         
         return 0
         
     except KeyboardInterrupt:
-        print("\n👋 ユーザー操作により終了")
+        logger.info("🛑 ユーザーによる中断")
+        print("\n👋 リファクタリング版システムを終了します...")
         return 0
+        
     except Exception as e:
-        app.logger.error(f"予期しないエラー: {e}")
+        logger.error(f"メイン処理で予期しないエラー: {e}", exc_info=True)
+        print(f"❌ 予期しないエラーが発生しました: {e}")
         return 1
+        
     finally:
-        await app.shutdown()
-
+        # 確実にクリーンアップ実行
+        try:
+            await orchestrator.shutdown()
+        except Exception as e:
+            logger.error(f"終了処理エラー: {e}")
 
 if __name__ == "__main__":
     try:
         exit_code = asyncio.run(main())
         sys.exit(exit_code)
     except KeyboardInterrupt:
-        print("\n👋 終了")
+        print("\n👋 ユーザーによる終了")
         sys.exit(0)
+    except Exception as e:
+        print(f"❌ 致命的エラー: {e}")
+        sys.exit(1)

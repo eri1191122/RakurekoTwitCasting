@@ -1,40 +1,48 @@
 {
-  "twitcasting_urls": [
-    {
-      "url": "https://twitcasting.tv/c",
-      "description": "サンプルURL: https://twitcasting.tv/c:vau1013",
-      "added_at": "2025-08-02T23:54:43.050967",
-      "enabled": true,
-      "last_checked": null,
-      "status": "未確認"
-    },
-    {
-      "url": "https://twitcasting.tv/vau0307",
-      "description": "サンプルURL: https://twitcasting.tv/vau0307",
-      "added_at": "2025-08-02T23:54:43.051970",
-      "enabled": true,
-      "last_checked": null,
-      "status": "未確認"
-    },
-    {
-      "url": "https://twitcasting.tv/c:kutuna_",
-      "description": "",
-      "added_at": "2025-08-02T23:59:32.102106",
-      "enabled": true,
-      "last_checked": null,
-      "status": "未確認"
-    },
-    {
-      "url": "https://twitcasting.tv/komachik1221",
-      "description": "",
-      "added_at": "2025-08-03T01:17:55.391543",
-      "enabled": true,
-      "last_checked": null,
-      "status": "未確認"
-    }
-  ],
   "monitoring_settings": {
     "check_interval": 30,
     "retry_count": 3
-  }
+  },
+  "twitcasting_urls": [
+    {
+      "added_at": "2025-08-02T23:54:43.050967",
+      "description": "サンプルURL: https://twitcasting.tv/c:vau1013",
+      "enabled": true,
+      "last_checked": null,
+      "status": "未確認",
+      "url": "https://twitcasting.tv/c"
+    },
+    {
+      "added_at": "2025-08-02T23:54:43.051970",
+      "description": "サンプルURL: https://twitcasting.tv/vau0307",
+      "enabled": true,
+      "last_checked": null,
+      "status": "未確認",
+      "url": "https://twitcasting.tv/vau0307"
+    },
+    {
+      "added_at": "2025-08-02T23:59:32.102106",
+      "description": "",
+      "enabled": true,
+      "last_checked": null,
+      "status": "未確認",
+      "url": "https://twitcasting.tv/c:kutuna_"
+    },
+    {
+      "added_at": "2025-08-03T01:17:55.391543",
+      "description": "",
+      "enabled": true,
+      "last_checked": null,
+      "status": "未確認",
+      "url": "https://twitcasting.tv/komachik1221"
+    },
+    {
+      "added_at": "2025-08-04T11:34:57.101336",
+      "description": "",
+      "enabled": true,
+      "last_checked": null,
+      "status": "未確認",
+      "url": "https://twitcasting.tv/g:117191215409354941008"
+    }
+  ]
 }

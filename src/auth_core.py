@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-auth_core.py - 認証・Cookie管理システム
+auth_core.py - 認証・Cookie管理システム（Phase 1修正版）
 限定配信対応の核心モジュール
 """
 
@@ -77,9 +77,27 @@ class TwitCastingAuth:
             logger.error(f"Cookie文字列取得エラー: {e}")
         return ""
     
+    # ✅ 修正: 不足していたget_cookiesメソッド追加
+    def get_cookies(self) -> Optional[List[Dict]]:
+        """Cookie情報取得"""
+        try:
+            if self.cookies_json.exists():
+                with open(self.cookies_json, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+        except Exception as e:
+            logger.error(f"Cookie取得エラー: {e}")
+        return None
+    
     def get_netscape_cookies_path(self) -> str:
         """Netscape形式cookiesファイルパス取得"""
         return str(self.cookies_txt)
+    
+    # ✅ 修正: Cookieファイル存在確認メソッド追加
+    def has_valid_cookies(self) -> bool:
+        """有効なCookieファイルが存在するかチェック"""
+        return (self.cookies_json.exists() and 
+                self.cookies_txt.exists() and 
+                not self.needs_refresh())
     
     async def refresh_cookies_playwright(self, headless: bool = True) -> bool:
         """Playwright使用のCookie更新（限定配信対応）"""
@@ -352,12 +370,15 @@ class LimitedStreamAuth:
         self.stream_passwords[url] = password
     
     async def authenticate_for_stream(self, url: str, headless: bool = True) -> Dict:
-        """特定配信の認証実行"""
+        """特定配信の認証実行（Phase 1修正版）"""
         if not PLAYWRIGHT_AVAILABLE:
             return {"success": False, "error": "Playwright未対応"}
         
         try:
-            await self.auth.auto_refresh_if_needed(headless)
+            # ✅ 修正: Cookie事前確認と更新
+            cookie_updated = await self.auth.auto_refresh_if_needed(headless)
+            if not cookie_updated:
+                logger.warning("Cookie更新に失敗しましたが処理を続行します")
             
             async with async_playwright() as p:
                 context = await p.chromium.launch_persistent_context(
@@ -369,6 +390,7 @@ class LimitedStreamAuth:
                 page = context.pages[0] if context.pages else await context.new_page()
                 
                 # 配信ページへ移動
+                logger.info(f"🔗 配信ページへアクセス: {url}")
                 await page.goto(url, timeout=30000)
                 
                 # 障壁突破
@@ -379,18 +401,45 @@ class LimitedStreamAuth:
                     await context.close()
                     return {"success": False, "error": "障壁突破失敗"}
                 
-                # m3u8 URL検出待機
-                m3u8_detected = asyncio.Future()
+                # ✅ 修正: m3u8検出の改良版
+                logger.info("📡 配信開始/m3u8検出を待機中...")
+                m3u8_url = None
                 
-                def handle_response(response):
-                    if ".m3u8" in response.url and not m3u8_detected.done():
-                        m3u8_detected.set_result(response.url)
-                
-                page.on("response", handle_response)
-                
-                logger.info("配信開始を待機中...")
                 try:
-                    m3u8_url = await asyncio.wait_for(m3u8_detected, timeout=300)  # 5分待機
+                    # レスポンス監視でm3u8を検出
+                    async def handle_response(response):
+                        if ".m3u8" in response.url:
+                            nonlocal m3u8_url
+                            m3u8_url = response.url
+                            logger.info(f"🎯 m3u8 URL検出: {response.url}")
+                    
+                    page.on("response", handle_response)
+                    
+                    # 最大5分待機
+                    max_wait = 300  # 5分
+                    wait_interval = 5  # 5秒間隔
+                    
+                    for i in range(0, max_wait, wait_interval):
+                        if m3u8_url:
+                            break
+                        
+                        # ページを少しスクロールして活性化
+                        try:
+                            await page.evaluate("window.scrollBy(0, 100)")
+                            await asyncio.sleep(1)
+                            await page.evaluate("window.scrollBy(0, -100)")
+                        except:
+                            pass
+                        
+                        await asyncio.sleep(wait_interval)
+                        
+                        if i % 30 == 0:  # 30秒ごとにログ
+                            logger.info(f"⏳ 待機中... {i//60}分{i%60}秒経過")
+                    
+                    if not m3u8_url:
+                        # フォールバック: 直接URLを使用
+                        logger.warning("m3u8検出失敗、元URLを使用します")
+                        m3u8_url = url
                     
                     # 最新Cookie取得
                     cookies = await context.cookies()
@@ -402,16 +451,46 @@ class LimitedStreamAuth:
                         "success": True,
                         "m3u8_url": m3u8_url,
                         "cookie_header": cookie_header,
-                        "timestamp": datetime.now().isoformat()
+                        "timestamp": datetime.now().isoformat(),
+                        "detected_via": "m3u8_response" if ".m3u8" in m3u8_url else "fallback_url"
                     }
                     
-                except asyncio.TimeoutError:
+                except Exception as e:
                     await context.close()
-                    return {"success": False, "error": "配信開始タイムアウト"}
+                    logger.error(f"m3u8検出処理エラー: {e}")
+                    return {"success": False, "error": f"m3u8検出エラー: {e}"}
         
         except Exception as e:
             logger.error(f"配信認証エラー: {e}")
             return {"success": False, "error": str(e)}
+
+
+# ✅ 修正: 簡易テスト機能追加
+async def test_auth_system():
+    """認証システムテスト"""
+    print("🔐 認証システムテスト開始")
+    
+    try:
+        # 基本認証管理のテスト
+        auth = TwitCastingAuth()
+        print(f"📁 Cookie保存先: {auth.cookies_json}")
+        print(f"🍪 Cookie更新必要: {auth.needs_refresh()}")
+        print(f"✅ Cookie文字列長: {len(auth.get_cookie_string())}")
+        
+        # 限定配信認証のテスト準備
+        limited_auth = LimitedStreamAuth(auth)
+        print("🎯 限定配信認証準備完了")
+        
+        # 依存関係チェック
+        print(f"🎭 Playwright利用可能: {PLAYWRIGHT_AVAILABLE}")
+        print(f"🚗 Selenium利用可能: {SELENIUM_AVAILABLE}")
+        
+        print("✅ 認証システム基本テスト完了")
+        return True
+        
+    except Exception as e:
+        print(f"❌ 認証システムテストエラー: {e}")
+        return False
 
 
 # === 使用例 ===
@@ -437,4 +516,6 @@ async def main_example():
         print(f"認証失敗: {result['error']}")
 
 if __name__ == "__main__":
-    asyncio.run(main_example())
+    import asyncio
+    # テスト実行
+    asyncio.run(test_auth_system())
