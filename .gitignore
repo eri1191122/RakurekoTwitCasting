@@ -1,0 +1,17 @@
+# 録画ファイル系
+recordings/
+*.mp4
+
+# キャッシュ系
+__pycache__/
+*.pyc
+
+# 環境・設定
+.env
+*.log
+*.db
+config/
+
+# ブラウザプロファイル（PlaywrightやChrome）
+data/browser_profile/
+playwright_user_data/
