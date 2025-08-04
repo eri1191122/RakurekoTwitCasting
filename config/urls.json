@@ -1,0 +1,40 @@
+{
+  "twitcasting_urls": [
+    {
+      "url": "https://twitcasting.tv/c",
+      "description": "サンプルURL: https://twitcasting.tv/c:vau1013",
+      "added_at": "2025-08-02T23:54:43.050967",
+      "enabled": true,
+      "last_checked": null,
+      "status": "未確認"
+    },
+    {
+      "url": "https://twitcasting.tv/vau0307",
+      "description": "サンプルURL: https://twitcasting.tv/vau0307",
+      "added_at": "2025-08-02T23:54:43.051970",
+      "enabled": true,
+      "last_checked": null,
+      "status": "未確認"
+    },
+    {
+      "url": "https://twitcasting.tv/c:kutuna_",
+      "description": "",
+      "added_at": "2025-08-02T23:59:32.102106",
+      "enabled": true,
+      "last_checked": null,
+      "status": "未確認"
+    },
+    {
+      "url": "https://twitcasting.tv/komachik1221",
+      "description": "",
+      "added_at": "2025-08-03T01:17:55.391543",
+      "enabled": true,
+      "last_checked": null,
+      "status": "未確認"
+    }
+  ],
+  "monitoring_settings": {
+    "check_interval": 30,
+    "retry_count": 3
+  }
+}

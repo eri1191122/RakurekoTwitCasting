@@ -1,0 +1,123 @@
+2025-08-02 23:53:09 - INFO - root - ログシステム初期化完了
+2025-08-02 23:53:09 - INFO - __main__ - ============================================================
+2025-08-02 23:53:09 - INFO - __main__ - 🎬 ラクロク TwitCasting v2.0 起動中...
+2025-08-02 23:53:09 - INFO - __main__ - ============================================================
+2025-08-02 23:53:09 - INFO - __main__ - ✅ 設定管理初期化完了
+2025-08-02 23:53:09 - INFO - __main__ - 🔍 依存関係チェック中...
+2025-08-02 23:53:10 - INFO - __main__ - ✅ streamlink: streamlink 7.5.0
+2025-08-02 23:53:10 - INFO - __main__ - ✅ yt-dlp: 2025.05.22
+2025-08-02 23:53:10 - INFO - __main__ - ✅ ffmpeg: ffmpeg version 2025-06-04-git-a4c1a5b084-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+built with gcc 15.1.0 (Rev4, Built by MSYS2 project)
+configuration: --enable-gpl --enab
+2025-08-02 23:53:10 - INFO - __main__ - ✅ playwright (オプション): Version 1.52.0
+2025-08-02 23:53:10 - WARNING - __main__ - ⚠️ chromedriver (オプション): 'utf-8' codec can't decode byte 0x82 in position 15: invalid start byte
+2025-08-02 23:53:11 - INFO - __main__ - ✅ 認証管理初期化完了
+2025-08-02 23:53:11 - INFO - __main__ - ✅ URL管理初期化完了
+2025-08-02 23:53:11 - ERROR - __main__ - ❌ 初期化エラー: 'ConfigManager' object has no attribute 'get'
+2025-08-02 23:53:11 - INFO - __main__ - 🛑 終了処理開始...
+2025-08-02 23:53:11 - INFO - __main__ - ✅ 終了処理完了
+2025-08-02 23:54:41 - INFO - root - ログシステム初期化完了
+2025-08-02 23:54:41 - INFO - __main__ - ============================================================
+2025-08-02 23:54:41 - INFO - __main__ - 🎬 ラクロク TwitCasting v2.0 起動中...
+2025-08-02 23:54:41 - INFO - __main__ - ============================================================
+2025-08-02 23:54:41 - INFO - __main__ - ✅ 設定管理初期化完了
+2025-08-02 23:54:41 - INFO - __main__ - 🔍 依存関係チェック中...
+2025-08-02 23:54:42 - INFO - __main__ - ✅ streamlink: streamlink 7.5.0
+2025-08-02 23:54:42 - INFO - __main__ - ✅ yt-dlp: 2025.05.22
+2025-08-02 23:54:42 - INFO - __main__ - ✅ ffmpeg: ffmpeg version 2025-06-04-git-a4c1a5b084-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+built with gcc 15.1.0 (Rev4, Built by MSYS2 project)
+configuration: --enable-gpl --enab
+2025-08-02 23:54:42 - INFO - __main__ - ✅ playwright (オプション): Version 1.52.0
+2025-08-02 23:54:42 - WARNING - __main__ - ⚠️ chromedriver (オプション): 'utf-8' codec can't decode byte 0x82 in position 15: invalid start byte
+2025-08-02 23:54:43 - INFO - __main__ - ✅ 認証管理初期化完了
+2025-08-02 23:54:43 - INFO - __main__ - ✅ URL管理初期化完了
+2025-08-02 23:54:43 - WARNING - __main__ - ⚠️ 録画エンジン初期化失敗: 'ConfigManager' object has no attribute 'get'
+2025-08-02 23:54:43 - INFO - __main__ - 録画機能なしで続行します
+2025-08-02 23:54:43 - INFO - __main__ - ✅ 監視システム初期化完了
+2025-08-02 23:54:43 - INFO - __main__ - ✅ システム監視初期化完了
+2025-08-02 23:54:43 - WARNING - __main__ - 監視対象URLが設定されていません
+2025-08-02 23:54:43 - INFO - root - URL追加成功: https://twitcasting.tv/c
+2025-08-02 23:54:43 - INFO - __main__ - サンプルURL追加: https://twitcasting.tv/c:vau1013
+2025-08-02 23:54:43 - INFO - root - URL追加成功: https://twitcasting.tv/vau0307
+2025-08-02 23:54:43 - INFO - __main__ - サンプルURL追加: https://twitcasting.tv/vau0307
+2025-08-02 23:54:43 - INFO - twitcasting_monitor - 監視対象追加: c
+2025-08-02 23:54:43 - INFO - twitcasting_monitor - 監視対象追加: vau0307
+2025-08-02 23:54:43 - INFO - __main__ - 📋 監視対象URL: 2件
+2025-08-02 23:54:43 - INFO - __main__ -   1. c
+2025-08-02 23:54:43 - INFO - __main__ -   2. vau0307
+2025-08-02 23:54:43 - INFO - __main__ - 🚀 システム初期化完了
+2025-08-02 23:54:43 - INFO - __main__ - 🎮 対話モード開始
+2025-08-02 23:54:43 - INFO - __main__ - ----------------------------------------
+2025-08-02 23:56:14 - WARNING - root - URL既に存在: https://twitcasting.tv/c
+2025-08-02 23:56:39 - INFO - root - ログ管理テスト成功
+2025-08-02 23:57:14 - WARNING - root - URL既に存在: https://twitcasting.tv/c
+2025-08-02 23:58:10 - INFO - __main__ - 🛑 終了処理開始...
+2025-08-02 23:58:10 - INFO - twitcasting_monitor - 配信監視停止
+2025-08-02 23:58:10 - INFO - root - システム監視停止
+2025-08-02 23:58:10 - INFO - __main__ - ✅ 終了処理完了
+2025-08-02 23:59:06 - INFO - root - ログシステム初期化完了
+2025-08-02 23:59:06 - INFO - __main__ - ============================================================
+2025-08-02 23:59:06 - INFO - __main__ - 🎬 ラクロク TwitCasting v2.0 起動中...
+2025-08-02 23:59:06 - INFO - __main__ - ============================================================
+2025-08-02 23:59:06 - INFO - __main__ - ✅ 設定管理初期化完了
+2025-08-02 23:59:06 - INFO - __main__ - 🔍 依存関係チェック中...
+2025-08-02 23:59:07 - INFO - __main__ - ✅ streamlink: streamlink 7.5.0
+2025-08-02 23:59:07 - INFO - __main__ - ✅ yt-dlp: 2025.05.22
+2025-08-02 23:59:07 - INFO - __main__ - ✅ ffmpeg: ffmpeg version 2025-06-04-git-a4c1a5b084-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+built with gcc 15.1.0 (Rev4, Built by MSYS2 project)
+configuration: --enable-gpl --enab
+2025-08-02 23:59:07 - INFO - __main__ - ✅ playwright (オプション): Version 1.52.0
+2025-08-02 23:59:07 - WARNING - __main__ - ⚠️ chromedriver (オプション): 'utf-8' codec can't decode byte 0x82 in position 15: invalid start byte
+2025-08-02 23:59:08 - INFO - __main__ - ✅ 認証管理初期化完了
+2025-08-02 23:59:08 - INFO - __main__ - ✅ URL管理初期化完了
+2025-08-02 23:59:08 - WARNING - __main__ - ⚠️ 録画エンジン初期化失敗: 'ConfigManager' object has no attribute 'get'
+2025-08-02 23:59:08 - INFO - __main__ - 録画機能なしで続行します
+2025-08-02 23:59:08 - INFO - __main__ - ✅ 監視システム初期化完了
+2025-08-02 23:59:08 - INFO - __main__ - ✅ システム監視初期化完了
+2025-08-02 23:59:08 - INFO - twitcasting_monitor - 監視対象追加: c
+2025-08-02 23:59:08 - INFO - twitcasting_monitor - 監視対象追加: vau0307
+2025-08-02 23:59:08 - INFO - __main__ - 📋 監視対象URL: 2件
+2025-08-02 23:59:08 - INFO - __main__ -   1. c
+2025-08-02 23:59:08 - INFO - __main__ -   2. vau0307
+2025-08-02 23:59:08 - INFO - __main__ - 🔐 認証状態確認中...
+2025-08-02 23:59:08 - INFO - __main__ - Cookie更新が必要です
+2025-08-02 23:59:08 - INFO - auth_core - Cookie更新が必要です
+2025-08-02 23:59:10 - INFO - auth_core - 既にログイン済み
+2025-08-02 23:59:10 - INFO - auth_core - Cookie保存完了
+2025-08-02 23:59:10 - INFO - auth_core - Cookie更新成功
+2025-08-02 23:59:10 - INFO - __main__ - ✅ Cookie更新成功
+2025-08-02 23:59:10 - INFO - __main__ - 🚀 システム初期化完了
+2025-08-02 23:59:10 - INFO - __main__ - 🎮 対話モード開始
+2025-08-02 23:59:10 - INFO - __main__ - ----------------------------------------
+2025-08-02 23:59:32 - INFO - root - URL追加成功: https://twitcasting.tv/c:kutuna_
+2025-08-02 23:59:32 - INFO - twitcasting_monitor - 監視対象追加: c:kutuna_
+2025-08-03 00:00:38 - INFO - twitcasting_monitor - 配信監視開始
+2025-08-03 00:00:38 - ERROR - twitcasting_monitor - 録画同期エラー (https://twitcasting.tv/c): 'NoneType' object has no attribute 'get_active_recordings'
+2025-08-03 00:00:38 - ERROR - twitcasting_monitor - 録画同期エラー (https://twitcasting.tv/vau0307): 'NoneType' object has no attribute 'get_active_recordings'
+2025-08-03 00:00:38 - ERROR - twitcasting_monitor - 録画同期エラー (https://twitcasting.tv/c:kutuna_): 'NoneType' object has no attribute 'get_active_recordings'
+2025-08-03 00:00:38 - ERROR - twitcasting_monitor - 監視ループエラー: 'ConfigManager' object has no attribute 'get'
+2025-08-03 00:01:38 - ERROR - twitcasting_monitor - 録画同期エラー (https://twitcasting.tv/c): 'NoneType' object has no attribute 'get_active_recordings'
+2025-08-03 00:01:38 - ERROR - twitcasting_monitor - 録画同期エラー (https://twitcasting.tv/vau0307): 'NoneType' object has no attribute 'get_active_recordings'
+2025-08-03 00:01:38 - ERROR - twitcasting_monitor - 録画同期エラー (https://twitcasting.tv/c:kutuna_): 'NoneType' object has no attribute 'get_active_recordings'
+2025-08-03 00:01:38 - ERROR - twitcasting_monitor - 監視ループエラー: 'ConfigManager' object has no attribute 'get'
+2025-08-03 00:02:38 - ERROR - twitcasting_monitor - 録画同期エラー (https://twitcasting.tv/c): 'NoneType' object has no attribute 'get_active_recordings'
+2025-08-03 00:02:38 - ERROR - twitcasting_monitor - 録画同期エラー (https://twitcasting.tv/vau0307): 'NoneType' object has no attribute 'get_active_recordings'
+2025-08-03 00:02:38 - ERROR - twitcasting_monitor - 録画同期エラー (https://twitcasting.tv/c:kutuna_): 'NoneType' object has no attribute 'get_active_recordings'
+2025-08-03 00:02:38 - ERROR - twitcasting_monitor - 監視ループエラー: 'ConfigManager' object has no attribute 'get'
+2025-08-03 00:03:38 - ERROR - twitcasting_monitor - 録画同期エラー (https://twitcasting.tv/c): 'NoneType' object has no attribute 'get_active_recordings'
+2025-08-03 00:03:38 - ERROR - twitcasting_monitor - 録画同期エラー (https://twitcasting.tv/vau0307): 'NoneType' object has no attribute 'get_active_recordings'
+2025-08-03 00:03:38 - ERROR - twitcasting_monitor - 録画同期エラー (https://twitcasting.tv/c:kutuna_): 'NoneType' object has no attribute 'get_active_recordings'
+2025-08-03 00:03:38 - ERROR - twitcasting_monitor - 監視ループエラー: 'ConfigManager' object has no attribute 'get'
+2025-08-03 00:04:38 - ERROR - twitcasting_monitor - 録画同期エラー (https://twitcasting.tv/c): 'NoneType' object has no attribute 'get_active_recordings'
+2025-08-03 00:04:38 - ERROR - twitcasting_monitor - 録画同期エラー (https://twitcasting.tv/vau0307): 'NoneType' object has no attribute 'get_active_recordings'
+2025-08-03 00:04:38 - ERROR - twitcasting_monitor - 録画同期エラー (https://twitcasting.tv/c:kutuna_): 'NoneType' object has no attribute 'get_active_recordings'
+2025-08-03 00:04:38 - ERROR - twitcasting_monitor - 監視ループエラー: 'ConfigManager' object has no attribute 'get'
+2025-08-03 00:05:38 - ERROR - twitcasting_monitor - 録画同期エラー (https://twitcasting.tv/c): 'NoneType' object has no attribute 'get_active_recordings'
+2025-08-03 00:05:38 - ERROR - twitcasting_monitor - 録画同期エラー (https://twitcasting.tv/vau0307): 'NoneType' object has no attribute 'get_active_recordings'
+2025-08-03 00:05:38 - ERROR - twitcasting_monitor - 録画同期エラー (https://twitcasting.tv/c:kutuna_): 'NoneType' object has no attribute 'get_active_recordings'
+2025-08-03 00:05:38 - ERROR - twitcasting_monitor - 監視ループエラー: 'ConfigManager' object has no attribute 'get'
+2025-08-03 00:05:51 - INFO - __main__ - シグナル 2 受信。終了処理開始...
+2025-08-03 00:05:51 - INFO - __main__ - 🛑 終了処理開始...
+2025-08-03 00:05:56 - INFO - twitcasting_monitor - 配信監視停止
+2025-08-03 00:05:56 - INFO - root - システム監視停止
+2025-08-03 00:05:56 - INFO - __main__ - ✅ 終了処理完了

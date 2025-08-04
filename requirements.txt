@@ -1,0 +1,40 @@
+# ラクロク TwitCasting 依存関係リスト
+
+# 必須パッケージ（録画機能）
+streamlink>=6.0.0
+yt-dlp>=2023.12.30
+
+# 認証・ブラウザ操作（限定配信対応）
+playwright>=1.40.0
+selenium>=4.15.0
+webdriver-manager>=4.0.0
+
+# HTTP・Cookie管理
+requests>=2.31.0
+
+# 設定・ログ管理
+python-dotenv>=1.0.0
+pyyaml>=6.0.1
+
+# 非同期処理
+asyncio>=3.4.3
+
+# ファイル監視（オプション）
+watchdog>=3.0.0
+
+# GUI開発用（将来実装）
+# tkinter は標準ライブラリなので不要
+# PyQt5>=5.15.0  # 高度なGUI用（オプション）
+
+# 開発・テスト用（オプション）
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+flake8>=6.0.0
+black>=23.0.0
+
+# システム依存
+# Windows用
+pywin32>=306; sys_platform == "win32"
+
+# macOS/Linux用  
+psutil>=5.9.0; sys_platform != "win32"

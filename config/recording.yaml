@@ -1,0 +1,19 @@
+audio_quality: best
+auto_convert: true
+convert_format: mp4
+delete_original: false
+enable_notifications: true
+filename_template: '{user}_{date}_{time}_{title}'
+format_preference:
+- mp4
+- flv
+- ts
+max_reconnect_attempts: 5
+notification_methods:
+- console
+- log
+output_directory: recordings/videos
+reconnect_timeout: 10
+segment_duration: 30
+temp_directory: recordings/temp
+video_quality: best

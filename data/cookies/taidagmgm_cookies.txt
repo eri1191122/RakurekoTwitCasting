@@ -1,0 +1,12 @@
+# Netscape HTTP Cookie File
+# This file contains the cookies for TwitCasting authentication
+202-218-171-213.twitcasting.tv	FALSE	/tc.livehls/v1/streams/820804985/hls/	FALSE	1754150166	tc_lvhls_ssid_820804985	e26682876b38ad571f5ef2ce346ccb97
+.twitcasting.tv	TRUE	/	FALSE	1785684863	hl	ja
+.twitcasting.tv	TRUE	/	FALSE	1788708863	did	4c2fb2d4da0a1748b7b10720be730584
+.twitcasting.tv	TRUE	/	FALSE	1788709566	_ga	GA1.1.148998543.1754148865
+.twitcasting.tv	TRUE	/	TRUE	1788709434	mfadid	g2u6BcPKNDH7bhrLw5-X-wEyyYFDR-cv
+.twitter.com	TRUE	/	TRUE	1788708871	personalization_id	"v1_Fa+3dCxfSUFbu9HiyvB95g=="
+.twitter.com	TRUE	/	TRUE	1754150671	__cf_bm	8JQTAraoVNJVaMEkd6qL6FHETpqNyay0xb9DPZ_.Vq8-1754148871-1.0.1.1-mZNgmpocFwmaXbqgmTAwsv1nK1B6TUGbV6gZGKNDxfS9SQWhsGxJSmYTeMJeftNqjj9azy1URQb46_1cUAuXTRKMyDPp7EHTjxPkqWnMJK0
+.twitcasting.tv	TRUE	/	FALSE	1769701566	tc_id	c%3Arimrim99
+.twitcasting.tv	TRUE	/	FALSE	1769701566	tc_ss	1GDz86DDYhcOHGOKbq-GELVk
+.twitcasting.tv	TRUE	/	FALSE	1788709566	_ga_X8R46Y30YM	GS2.1.s1754148864$o1$g1$t1754149566$j47$l0$h0

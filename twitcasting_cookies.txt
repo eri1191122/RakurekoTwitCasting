@@ -1,0 +1,12 @@
+# Netscape HTTP Cookie File
+# http://curl.haxx.se/rfc/cookie_spec.html
+# This is a generated file!  Do not edit.
+
+.t.co	TRUE	/	TRUE		__cf_bm	2i8p3BUD8g_zlG9uCS8trfpRuAVdvXMiGRca.nAeJmE-1754146750-1.0.1.1-Mli5Pq18ufgj.YJiSDopnndNuVyU.WUBDr3D_eAAlWhwalnQDasYuogg9H3b_XRl3uY3xpGrJ.tkO5LDmJweBKgxrnhyGvwwnSK3MxYaljk
+.t.co	TRUE	/	TRUE		muc_ads	12bd55e6-c1fd-4fc4-87ec-38ca2c3b4109
+.twitcasting.tv	TRUE	/	FALSE		_ga	GA1.1.1964087016.1754146750
+.twitcasting.tv	TRUE	/	FALSE		_ga_X8R46Y30YM	GS2.1.s1754146750$o1$g0$t1754146750$j60$l0$h0
+.twitcasting.tv	TRUE	/	FALSE		did	97d3067f52066061f7e0b51ba5e56e53
+.twitcasting.tv	TRUE	/	FALSE		hl	ja
+.twitter.com	TRUE	/	TRUE		__cf_bm	CzClUlucFEsIN.L82meivLtDWdjGawSIGQNFZwR2k44-1754146750-1.0.1.1-lqnfj3pNL2pK5YaZGtiWgNOGqFf1JAzrqW2MZeoyChl3_arGB3nkFc1o04hTuJSa9HjplfcliiYtt3vNuB7_6EDFYIAXpCOKDXpQts70gQQ
+.twitter.com	TRUE	/	TRUE		personalization_id	"v1_0ARceQjiF2/C6v/HarRVkQ=="

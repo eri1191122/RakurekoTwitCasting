@@ -1,0 +1,15 @@
+config_dir: C:\Users\81904\Desktop\RakurekoTwitCasting\config
+data_dir: C:\Users\81904\Desktop\RakurekoTwitCasting\data
+disk_space_threshold_gb: 5.0
+log_level: INFO
+log_retention_days: 30
+log_rotation_size: 10MB
+logs_dir: C:\Users\81904\Desktop\RakurekoTwitCasting\data\logs
+max_concurrent_recordings: 3
+memory_threshold_percent: 85.0
+project_root: C:\Users\81904\Desktop\RakurekoTwitCasting
+recording_timeout_minutes: 180
+recordings_dir: C:\Users\81904\Desktop\RakurekoTwitCasting\recordings
+retry_attempts: 3
+retry_delay_seconds: 5
+system_check_interval: 60

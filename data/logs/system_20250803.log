@@ -1,0 +1,588 @@
+2025-08-03 00:08:55 - INFO - root - ログシステム初期化完了
+2025-08-03 00:08:55 - INFO - __main__ - ============================================================
+2025-08-03 00:08:55 - INFO - __main__ - 🎬 ラクロク TwitCasting v2.0 起動中...
+2025-08-03 00:08:55 - INFO - __main__ - ============================================================
+2025-08-03 00:08:55 - INFO - __main__ - ✅ 設定管理初期化完了
+2025-08-03 00:08:55 - INFO - __main__ - 🔍 依存関係チェック中...
+2025-08-03 00:08:57 - INFO - __main__ - ✅ streamlink: streamlink 7.5.0
+2025-08-03 00:08:57 - INFO - __main__ - ✅ yt-dlp: 2025.05.22
+2025-08-03 00:08:57 - INFO - __main__ - ✅ ffmpeg: ffmpeg version 2025-06-04-git-a4c1a5b084-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+built with gcc 15.1.0 (Rev4, Built by MSYS2 project)
+configuration: --enable-gpl --enab
+2025-08-03 00:08:57 - INFO - __main__ - ✅ playwright (オプション): Version 1.52.0
+2025-08-03 00:08:57 - WARNING - __main__ - ⚠️ chromedriver (オプション): 'utf-8' codec can't decode byte 0x82 in position 15: invalid start byte
+2025-08-03 00:08:57 - INFO - __main__ - ✅ 認証管理初期化完了
+2025-08-03 00:08:57 - INFO - __main__ - ✅ URL管理初期化完了
+2025-08-03 00:08:57 - INFO - recording_engine - 録画ディレクトリ準備完了: C:\Users\81904\Desktop\RakurekoTwitCasting\recordings\videos
+2025-08-03 00:08:57 - INFO - recording_engine - 実録画エンジン初期化完了
+2025-08-03 00:08:57 - INFO - __main__ - ✅ 録画エンジン初期化完了
+2025-08-03 00:08:57 - INFO - twitcasting_monitor - 実TwitCasting監視システム初期化完了
+2025-08-03 00:08:57 - INFO - __main__ - ✅ 監視システム初期化完了
+2025-08-03 00:08:57 - INFO - __main__ - ✅ システム監視初期化完了
+2025-08-03 00:08:57 - INFO - twitcasting_monitor - 監視対象追加: c
+2025-08-03 00:08:57 - INFO - twitcasting_monitor - 監視対象追加: vau0307
+2025-08-03 00:08:57 - INFO - twitcasting_monitor - 監視対象追加: c:kutuna_
+2025-08-03 00:08:57 - INFO - __main__ - 📋 監視対象URL: 3件
+2025-08-03 00:08:57 - INFO - __main__ -   1. c
+2025-08-03 00:08:57 - INFO - __main__ -   2. vau0307
+2025-08-03 00:08:57 - INFO - __main__ -   3. c:kutuna_
+2025-08-03 00:08:57 - INFO - __main__ - 🔐 認証状態確認中...
+2025-08-03 00:08:57 - INFO - __main__ - ✅ 認証状態正常
+2025-08-03 00:08:57 - INFO - __main__ - 🚀 システム初期化完了
+2025-08-03 00:08:57 - INFO - __main__ - 🎮 対話モード開始
+2025-08-03 00:08:57 - INFO - __main__ - ----------------------------------------
+2025-08-03 00:09:05 - INFO - twitcasting_monitor - 実監視開始
+2025-08-03 00:09:28 - INFO - twitcasting_monitor - 監視ループ開始
+2025-08-03 00:09:28 - INFO - twitcasting_monitor - 配信状態変化: c:kutuna_ unknown -> live
+2025-08-03 00:09:28 - INFO - twitcasting_monitor - 🔴 録画開始トリガー: c:kutuna_
+2025-08-03 00:09:28 - INFO - recording_engine - ✅ 録画開始: c:kutuna_
+2025-08-03 00:09:28 - INFO - twitcasting_monitor - ✅ 録画開始成功: c:kutuna_
+2025-08-03 00:09:28 - INFO - twitcasting_monitor - 配信状態変化: vau0307 unknown -> live
+2025-08-03 00:09:28 - INFO - twitcasting_monitor - 🔴 録画開始トリガー: vau0307
+2025-08-03 00:09:28 - INFO - recording_engine - ✅ 録画開始: vau0307
+2025-08-03 00:09:28 - INFO - twitcasting_monitor - ✅ 録画開始成功: vau0307
+2025-08-03 00:09:28 - INFO - twitcasting_monitor - 配信状態変化: c unknown -> live
+2025-08-03 00:09:28 - INFO - twitcasting_monitor - 🔴 録画開始トリガー: c
+2025-08-03 00:09:28 - INFO - recording_engine - ✅ 録画開始: c
+2025-08-03 00:09:28 - INFO - twitcasting_monitor - ✅ 録画開始成功: c
+2025-08-03 00:09:28 - INFO - recording_engine - Streamlink録画開始: c:kutuna_
+2025-08-03 00:09:28 - INFO - recording_engine - Streamlink録画開始: vau0307
+2025-08-03 00:09:28 - INFO - recording_engine - Streamlink録画開始: c
+2025-08-03 00:09:29 - ERROR - recording_engine - 録画異常終了: c:kutuna_ (終了コード: 2)
+2025-08-03 00:09:29 - ERROR - recording_engine - エラー出力: usage: streamlink [OPTIONS] <URL> [STREAM]
+streamlink: error: unrecognized arguments: --hls-segment-timeout 10
+
+2025-08-03 00:09:29 - ERROR - recording_engine - ❌ 録画失敗: c:kutuna_
+2025-08-03 00:09:29 - ERROR - recording_engine - 録画異常終了: vau0307 (終了コード: 2)
+2025-08-03 00:09:29 - ERROR - recording_engine - エラー出力: usage: streamlink [OPTIONS] <URL> [STREAM]
+streamlink: error: unrecognized arguments: --hls-segment-timeout 10
+
+2025-08-03 00:09:29 - ERROR - recording_engine - ❌ 録画失敗: vau0307
+2025-08-03 00:09:29 - ERROR - recording_engine - 録画異常終了: c (終了コード: 2)
+2025-08-03 00:09:29 - ERROR - recording_engine - エラー出力: usage: streamlink [OPTIONS] <URL> [STREAM]
+streamlink: error: unrecognized arguments: --hls-segment-timeout 10
+
+2025-08-03 00:09:29 - ERROR - recording_engine - ❌ 録画失敗: c
+2025-08-03 00:09:29 - INFO - root - ログ管理テスト成功
+2025-08-03 00:10:53 - INFO - __main__ - シグナル 2 受信。終了処理開始...
+2025-08-03 00:10:53 - INFO - __main__ - 🛑 終了処理開始...
+2025-08-03 00:10:53 - INFO - twitcasting_monitor - 監視停止
+2025-08-03 00:10:53 - INFO - recording_engine - 録画エンジンシャットダウン開始
+2025-08-03 00:10:53 - INFO - recording_engine - 録画エンジンシャットダウン完了
+2025-08-03 00:10:53 - INFO - root - システム監視停止
+2025-08-03 00:10:53 - INFO - __main__ - ✅ 終了処理完了
+2025-08-03 00:10:58 - INFO - root - ログシステム初期化完了
+2025-08-03 00:10:58 - INFO - __main__ - ============================================================
+2025-08-03 00:10:58 - INFO - __main__ - 🎬 ラクロク TwitCasting v2.0 起動中...
+2025-08-03 00:10:58 - INFO - __main__ - ============================================================
+2025-08-03 00:10:58 - INFO - __main__ - ✅ 設定管理初期化完了
+2025-08-03 00:10:58 - INFO - __main__ - 🔍 依存関係チェック中...
+2025-08-03 00:10:59 - INFO - __main__ - ✅ streamlink: streamlink 7.5.0
+2025-08-03 00:10:59 - INFO - __main__ - ✅ yt-dlp: 2025.05.22
+2025-08-03 00:10:59 - INFO - __main__ - ✅ ffmpeg: ffmpeg version 2025-06-04-git-a4c1a5b084-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+built with gcc 15.1.0 (Rev4, Built by MSYS2 project)
+configuration: --enable-gpl --enab
+2025-08-03 00:10:59 - INFO - __main__ - ✅ playwright (オプション): Version 1.52.0
+2025-08-03 00:10:59 - WARNING - __main__ - ⚠️ chromedriver (オプション): 'utf-8' codec can't decode byte 0x82 in position 15: invalid start byte
+2025-08-03 00:10:59 - INFO - __main__ - ✅ 認証管理初期化完了
+2025-08-03 00:10:59 - INFO - __main__ - ✅ URL管理初期化完了
+2025-08-03 00:10:59 - INFO - recording_engine - 録画ディレクトリ準備完了: C:\Users\81904\Desktop\RakurekoTwitCasting\recordings\videos
+2025-08-03 00:10:59 - INFO - recording_engine - 実録画エンジン初期化完了
+2025-08-03 00:10:59 - INFO - __main__ - ✅ 録画エンジン初期化完了
+2025-08-03 00:10:59 - INFO - twitcasting_monitor - 実TwitCasting監視システム初期化完了
+2025-08-03 00:10:59 - INFO - __main__ - ✅ 監視システム初期化完了
+2025-08-03 00:10:59 - INFO - __main__ - ✅ システム監視初期化完了
+2025-08-03 00:10:59 - INFO - twitcasting_monitor - 監視対象追加: c
+2025-08-03 00:10:59 - INFO - twitcasting_monitor - 監視対象追加: vau0307
+2025-08-03 00:10:59 - INFO - twitcasting_monitor - 監視対象追加: c:kutuna_
+2025-08-03 00:10:59 - INFO - __main__ - 📋 監視対象URL: 3件
+2025-08-03 00:10:59 - INFO - __main__ -   1. c
+2025-08-03 00:10:59 - INFO - __main__ -   2. vau0307
+2025-08-03 00:10:59 - INFO - __main__ -   3. c:kutuna_
+2025-08-03 00:10:59 - INFO - __main__ - 🔐 認証状態確認中...
+2025-08-03 00:10:59 - INFO - __main__ - ✅ 認証状態正常
+2025-08-03 00:10:59 - INFO - __main__ - 🚀 システム初期化完了
+2025-08-03 00:10:59 - INFO - __main__ - 🎮 対話モード開始
+2025-08-03 00:10:59 - INFO - __main__ - ----------------------------------------
+2025-08-03 00:11:04 - INFO - twitcasting_monitor - 実監視開始
+2025-08-03 00:11:18 - INFO - twitcasting_monitor - 監視ループ開始
+2025-08-03 00:11:18 - INFO - twitcasting_monitor - 配信状態変化: c:kutuna_ unknown -> live
+2025-08-03 00:11:18 - INFO - twitcasting_monitor - 🔴 録画開始トリガー: c:kutuna_
+2025-08-03 00:11:18 - INFO - recording_engine - ✅ 録画開始: c:kutuna_
+2025-08-03 00:11:18 - INFO - twitcasting_monitor - ✅ 録画開始成功: c:kutuna_
+2025-08-03 00:11:18 - INFO - twitcasting_monitor - 配信状態変化: vau0307 unknown -> live
+2025-08-03 00:11:18 - INFO - twitcasting_monitor - 🔴 録画開始トリガー: vau0307
+2025-08-03 00:11:18 - INFO - recording_engine - ✅ 録画開始: vau0307
+2025-08-03 00:11:18 - INFO - twitcasting_monitor - ✅ 録画開始成功: vau0307
+2025-08-03 00:11:18 - INFO - recording_engine - Streamlink録画開始: c:kutuna_
+2025-08-03 00:11:18 - INFO - recording_engine - Streamlink録画開始: vau0307
+2025-08-03 00:11:18 - INFO - twitcasting_monitor - 配信状態変化: c unknown -> live
+2025-08-03 00:11:18 - INFO - twitcasting_monitor - 🔴 録画開始トリガー: c
+2025-08-03 00:11:18 - INFO - recording_engine - ✅ 録画開始: c
+2025-08-03 00:11:18 - INFO - twitcasting_monitor - ✅ 録画開始成功: c
+2025-08-03 00:11:18 - INFO - recording_engine - Streamlink録画開始: c
+2025-08-03 00:11:18 - ERROR - recording_engine - 録画異常終了: c:kutuna_ (終了コード: 2)
+2025-08-03 00:11:18 - ERROR - recording_engine - エラー出力: usage: streamlink [OPTIONS] <URL> [STREAM]
+streamlink: error: unrecognized arguments: --hls-timeout 10
+
+2025-08-03 00:11:18 - ERROR - recording_engine - ❌ 録画失敗: c:kutuna_
+2025-08-03 00:11:19 - ERROR - recording_engine - 録画異常終了: vau0307 (終了コード: 2)
+2025-08-03 00:11:19 - ERROR - recording_engine - エラー出力: usage: streamlink [OPTIONS] <URL> [STREAM]
+streamlink: error: unrecognized arguments: --hls-timeout 10
+
+2025-08-03 00:11:19 - ERROR - recording_engine - ❌ 録画失敗: vau0307
+2025-08-03 00:11:19 - ERROR - recording_engine - 録画異常終了: c (終了コード: 2)
+2025-08-03 00:11:19 - ERROR - recording_engine - エラー出力: usage: streamlink [OPTIONS] <URL> [STREAM]
+streamlink: error: unrecognized arguments: --hls-timeout 10
+
+2025-08-03 00:11:19 - ERROR - recording_engine - ❌ 録画失敗: c
+2025-08-03 00:11:19 - INFO - root - ログ管理テスト成功
+2025-08-03 00:15:03 - INFO - __main__ - シグナル 2 受信。終了処理開始...
+2025-08-03 00:15:03 - INFO - __main__ - 🛑 終了処理開始...
+2025-08-03 00:15:03 - INFO - twitcasting_monitor - 監視停止
+2025-08-03 00:15:03 - INFO - recording_engine - 録画エンジンシャットダウン開始
+2025-08-03 00:15:03 - INFO - recording_engine - 録画エンジンシャットダウン完了
+2025-08-03 00:15:03 - INFO - root - システム監視停止
+2025-08-03 00:15:03 - INFO - __main__ - ✅ 終了処理完了
+2025-08-03 00:21:01 - INFO - root - ログシステム初期化完了
+2025-08-03 00:21:01 - INFO - __main__ - ============================================================
+2025-08-03 00:21:01 - INFO - __main__ - 🎬 ラクロク TwitCasting v2.0 起動中...
+2025-08-03 00:21:01 - INFO - __main__ - ============================================================
+2025-08-03 00:21:01 - INFO - __main__ - ✅ 設定管理初期化完了
+2025-08-03 00:21:01 - INFO - __main__ - 🔍 依存関係チェック中...
+2025-08-03 00:21:02 - INFO - __main__ - ✅ streamlink: streamlink 7.5.0
+2025-08-03 00:21:02 - INFO - __main__ - ✅ yt-dlp: 2025.05.22
+2025-08-03 00:21:02 - INFO - __main__ - ✅ ffmpeg: ffmpeg version 2025-06-04-git-a4c1a5b084-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+built with gcc 15.1.0 (Rev4, Built by MSYS2 project)
+configuration: --enable-gpl --enab
+2025-08-03 00:21:02 - INFO - __main__ - ✅ playwright (オプション): Version 1.52.0
+2025-08-03 00:21:02 - WARNING - __main__ - ⚠️ chromedriver (オプション): 'utf-8' codec can't decode byte 0x82 in position 15: invalid start byte
+2025-08-03 00:21:02 - INFO - __main__ - ✅ 認証管理初期化完了
+2025-08-03 00:21:02 - INFO - __main__ - ✅ URL管理初期化完了
+2025-08-03 00:21:02 - INFO - recording_engine - 録画ディレクトリ準備完了: C:\Users\81904\Desktop\RakurekoTwitCasting\recordings\videos
+2025-08-03 00:21:02 - INFO - recording_engine - 実録画エンジン初期化完了
+2025-08-03 00:21:02 - INFO - __main__ - ✅ 録画エンジン初期化完了
+2025-08-03 00:21:02 - INFO - twitcasting_monitor - 実TwitCasting監視システム初期化完了
+2025-08-03 00:21:02 - INFO - __main__ - ✅ 監視システム初期化完了
+2025-08-03 00:21:02 - INFO - __main__ - ✅ システム監視初期化完了
+2025-08-03 00:21:02 - INFO - twitcasting_monitor - 監視対象追加: c
+2025-08-03 00:21:02 - INFO - twitcasting_monitor - 監視対象追加: vau0307
+2025-08-03 00:21:02 - INFO - twitcasting_monitor - 監視対象追加: c:kutuna_
+2025-08-03 00:21:02 - INFO - __main__ - 📋 監視対象URL: 3件
+2025-08-03 00:21:02 - INFO - __main__ -   1. c
+2025-08-03 00:21:02 - INFO - __main__ -   2. vau0307
+2025-08-03 00:21:02 - INFO - __main__ -   3. c:kutuna_
+2025-08-03 00:21:02 - INFO - __main__ - 🔐 認証状態確認中...
+2025-08-03 00:21:02 - INFO - __main__ - ✅ 認証状態正常
+2025-08-03 00:21:02 - INFO - __main__ - 🚀 システム初期化完了
+2025-08-03 00:21:02 - INFO - __main__ - 🎮 対話モード開始
+2025-08-03 00:21:02 - INFO - __main__ - ----------------------------------------
+2025-08-03 00:21:09 - INFO - twitcasting_monitor - 実監視開始
+2025-08-03 00:21:14 - INFO - twitcasting_monitor - 監視ループ開始
+2025-08-03 00:21:15 - INFO - twitcasting_monitor - 配信状態変化: c unknown -> live
+2025-08-03 00:21:15 - INFO - twitcasting_monitor - 🔴 録画開始トリガー: c
+2025-08-03 00:21:15 - INFO - recording_engine - ✅ 録画開始: c
+2025-08-03 00:21:15 - INFO - twitcasting_monitor - ✅ 録画開始成功: c
+2025-08-03 00:21:15 - INFO - recording_engine - Streamlinkコマンド: streamlink https://twitcasting.tv/c best --output C:\Users\81904\Desktop\RakurekoTwitCasting\recordings\temp\c_20250803_002115_c.mp4 --force --quiet --retry-streams 3
+2025-08-03 00:21:15 - INFO - twitcasting_monitor - 配信状態変化: c:kutuna_ unknown -> live
+2025-08-03 00:21:15 - INFO - twitcasting_monitor - 🔴 録画開始トリガー: c:kutuna_
+2025-08-03 00:21:15 - INFO - recording_engine - ✅ 録画開始: c:kutuna_
+2025-08-03 00:21:15 - INFO - twitcasting_monitor - ✅ 録画開始成功: c:kutuna_
+2025-08-03 00:21:15 - INFO - twitcasting_monitor - 配信状態変化: vau0307 unknown -> live
+2025-08-03 00:21:15 - INFO - twitcasting_monitor - 🔴 録画開始トリガー: vau0307
+2025-08-03 00:21:15 - INFO - recording_engine - ✅ 録画開始: vau0307
+2025-08-03 00:21:15 - INFO - twitcasting_monitor - ✅ 録画開始成功: vau0307
+2025-08-03 00:21:15 - INFO - recording_engine - Streamlinkコマンド: streamlink https://twitcasting.tv/c:kutuna_ best --output C:\Users\81904\Desktop\RakurekoTwitCasting\recordings\temp\kutuna__20250803_002115_c:kutuna_.mp4 --force --quiet --retry-streams 3
+2025-08-03 00:21:15 - INFO - recording_engine - Streamlinkコマンド: streamlink https://twitcasting.tv/vau0307 best --output C:\Users\81904\Desktop\RakurekoTwitCasting\recordings\temp\vau0307_20250803_002115_vau0307.mp4 --force --quiet --retry-streams 3
+2025-08-03 00:21:15 - INFO - recording_engine - Streamlink録画開始: c
+2025-08-03 00:21:15 - INFO - recording_engine - Streamlink録画開始: c:kutuna_
+2025-08-03 00:21:15 - INFO - recording_engine - Streamlink録画開始: vau0307
+2025-08-03 00:21:16 - INFO - root - ログ管理テスト成功
+2025-08-03 00:21:43 - INFO - root - ログ管理テスト成功
+2025-08-03 00:22:58 - INFO - __main__ - シグナル 2 受信。終了処理開始...
+2025-08-03 00:22:58 - INFO - __main__ - 🛑 終了処理開始...
+2025-08-03 00:22:58 - INFO - twitcasting_monitor - 監視停止
+2025-08-03 00:22:58 - INFO - recording_engine - 録画エンジンシャットダウン開始
+2025-08-03 00:22:58 - INFO - recording_engine - 録画エンジンシャットダウン完了
+2025-08-03 00:22:58 - INFO - root - システム監視停止
+2025-08-03 00:22:58 - INFO - __main__ - ✅ 終了処理完了
+2025-08-03 00:27:27 - INFO - root - ログシステム初期化完了
+2025-08-03 00:27:27 - INFO - __main__ - ============================================================
+2025-08-03 00:27:27 - INFO - __main__ - 🎬 ラクロク TwitCasting v2.0 起動中...
+2025-08-03 00:27:27 - INFO - __main__ - ============================================================
+2025-08-03 00:27:27 - INFO - __main__ - ✅ 設定管理初期化完了
+2025-08-03 00:27:27 - INFO - __main__ - 🔍 依存関係チェック中...
+2025-08-03 00:27:28 - INFO - __main__ - ✅ streamlink: streamlink 7.5.0
+2025-08-03 00:27:28 - INFO - __main__ - ✅ yt-dlp: 2025.05.22
+2025-08-03 00:27:28 - INFO - __main__ - ✅ ffmpeg: ffmpeg version 2025-06-04-git-a4c1a5b084-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+built with gcc 15.1.0 (Rev4, Built by MSYS2 project)
+configuration: --enable-gpl --enab
+2025-08-03 00:27:28 - INFO - __main__ - ✅ playwright (オプション): Version 1.52.0
+2025-08-03 00:27:28 - WARNING - __main__ - ⚠️ chromedriver (オプション): 'utf-8' codec can't decode byte 0x82 in position 15: invalid start byte
+2025-08-03 00:27:29 - INFO - __main__ - ✅ 認証管理初期化完了
+2025-08-03 00:27:29 - INFO - __main__ - ✅ URL管理初期化完了
+2025-08-03 00:27:29 - INFO - authenticated_recording - 認証付き録画エンジン初期化完了
+2025-08-03 00:27:29 - INFO - __main__ - ✅ 認証付き録画エンジン初期化完了
+2025-08-03 00:27:29 - INFO - twitcasting_monitor - 実TwitCasting監視システム初期化完了
+2025-08-03 00:27:29 - INFO - __main__ - ✅ 監視システム初期化完了
+2025-08-03 00:27:29 - INFO - __main__ - ✅ システム監視初期化完了
+2025-08-03 00:27:29 - INFO - twitcasting_monitor - 監視対象追加: c
+2025-08-03 00:27:29 - INFO - twitcasting_monitor - 監視対象追加: vau0307
+2025-08-03 00:27:29 - INFO - twitcasting_monitor - 監視対象追加: c:kutuna_
+2025-08-03 00:27:29 - INFO - __main__ - 📋 監視対象URL: 3件
+2025-08-03 00:27:29 - INFO - __main__ -   1. c
+2025-08-03 00:27:29 - INFO - __main__ -   2. vau0307
+2025-08-03 00:27:29 - INFO - __main__ -   3. c:kutuna_
+2025-08-03 00:27:29 - INFO - __main__ - 🔐 認証状態確認中...
+2025-08-03 00:27:29 - INFO - __main__ - ✅ 認証状態正常
+2025-08-03 00:27:29 - INFO - __main__ - 🚀 システム初期化完了
+2025-08-03 00:27:29 - INFO - __main__ - 🎮 対話モード開始
+2025-08-03 00:27:29 - INFO - __main__ - ----------------------------------------
+2025-08-03 00:27:40 - ERROR - __main__ - コマンド実行エラー: 'RakurekoMain' object has no attribute '_cmd_auth_add_url'
+2025-08-03 00:28:54 - INFO - __main__ - 🛑 終了処理開始...
+2025-08-03 00:28:54 - WARNING - twitcasting_monitor - 監視していません
+2025-08-03 00:28:54 - INFO - root - システム監視停止
+2025-08-03 00:28:54 - INFO - __main__ - ✅ 終了処理完了
+2025-08-03 00:28:57 - INFO - root - ログシステム初期化完了
+2025-08-03 00:28:57 - INFO - __main__ - ============================================================
+2025-08-03 00:28:57 - INFO - __main__ - 🎬 ラクロク TwitCasting v2.0 起動中...
+2025-08-03 00:28:57 - INFO - __main__ - ============================================================
+2025-08-03 00:28:57 - INFO - __main__ - ✅ 設定管理初期化完了
+2025-08-03 00:28:57 - INFO - __main__ - 🔍 依存関係チェック中...
+2025-08-03 00:28:58 - INFO - __main__ - ✅ streamlink: streamlink 7.5.0
+2025-08-03 00:28:58 - INFO - __main__ - ✅ yt-dlp: 2025.05.22
+2025-08-03 00:28:58 - INFO - __main__ - ✅ ffmpeg: ffmpeg version 2025-06-04-git-a4c1a5b084-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+built with gcc 15.1.0 (Rev4, Built by MSYS2 project)
+configuration: --enable-gpl --enab
+2025-08-03 00:28:58 - INFO - __main__ - ✅ playwright (オプション): Version 1.52.0
+2025-08-03 00:28:58 - WARNING - __main__ - ⚠️ chromedriver (オプション): 'utf-8' codec can't decode byte 0x82 in position 15: invalid start byte
+2025-08-03 00:28:58 - INFO - __main__ - ✅ 認証管理初期化完了
+2025-08-03 00:28:58 - INFO - __main__ - ✅ URL管理初期化完了
+2025-08-03 00:28:58 - INFO - authenticated_recording - 認証付き録画エンジン初期化完了
+2025-08-03 00:28:58 - INFO - __main__ - ✅ 認証付き録画エンジン初期化完了
+2025-08-03 00:28:58 - INFO - twitcasting_monitor - 実TwitCasting監視システム初期化完了
+2025-08-03 00:28:58 - INFO - __main__ - ✅ 監視システム初期化完了
+2025-08-03 00:28:58 - INFO - __main__ - ✅ システム監視初期化完了
+2025-08-03 00:28:58 - INFO - twitcasting_monitor - 監視対象追加: c
+2025-08-03 00:28:58 - INFO - twitcasting_monitor - 監視対象追加: vau0307
+2025-08-03 00:28:58 - INFO - twitcasting_monitor - 監視対象追加: c:kutuna_
+2025-08-03 00:28:58 - INFO - __main__ - 📋 監視対象URL: 3件
+2025-08-03 00:28:58 - INFO - __main__ -   1. c
+2025-08-03 00:28:58 - INFO - __main__ -   2. vau0307
+2025-08-03 00:28:58 - INFO - __main__ -   3. c:kutuna_
+2025-08-03 00:28:58 - INFO - __main__ - 🔐 認証状態確認中...
+2025-08-03 00:28:58 - INFO - __main__ - ✅ 認証状態正常
+2025-08-03 00:28:58 - INFO - __main__ - 🚀 システム初期化完了
+2025-08-03 00:28:58 - INFO - __main__ - 🎮 対話モード開始
+2025-08-03 00:28:58 - INFO - __main__ - ----------------------------------------
+2025-08-03 00:29:05 - ERROR - __main__ - コマンド実行エラー: 'RakurekoMain' object has no attribute '_cmd_auth_add_url'
+2025-08-03 00:30:20 - INFO - __main__ - 🛑 終了処理開始...
+2025-08-03 00:30:20 - WARNING - twitcasting_monitor - 監視していません
+2025-08-03 00:30:20 - INFO - root - システム監視停止
+2025-08-03 00:30:20 - INFO - __main__ - ✅ 終了処理完了
+2025-08-03 00:30:24 - INFO - root - ログシステム初期化完了
+2025-08-03 00:30:24 - INFO - __main__ - ============================================================
+2025-08-03 00:30:24 - INFO - __main__ - 🎬 ラクロク TwitCasting v2.0 起動中...
+2025-08-03 00:30:24 - INFO - __main__ - ============================================================
+2025-08-03 00:30:24 - INFO - __main__ - ✅ 設定管理初期化完了
+2025-08-03 00:30:24 - INFO - __main__ - 🔍 依存関係チェック中...
+2025-08-03 00:30:25 - INFO - __main__ - ✅ streamlink: streamlink 7.5.0
+2025-08-03 00:30:25 - INFO - __main__ - ✅ yt-dlp: 2025.05.22
+2025-08-03 00:30:25 - INFO - __main__ - ✅ ffmpeg: ffmpeg version 2025-06-04-git-a4c1a5b084-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+built with gcc 15.1.0 (Rev4, Built by MSYS2 project)
+configuration: --enable-gpl --enab
+2025-08-03 00:30:25 - INFO - __main__ - ✅ playwright (オプション): Version 1.52.0
+2025-08-03 00:30:25 - WARNING - __main__ - ⚠️ chromedriver (オプション): 'utf-8' codec can't decode byte 0x82 in position 15: invalid start byte
+2025-08-03 00:30:26 - INFO - __main__ - ✅ 認証管理初期化完了
+2025-08-03 00:30:26 - INFO - __main__ - ✅ URL管理初期化完了
+2025-08-03 00:30:26 - INFO - authenticated_recording - 認証付き録画エンジン初期化完了
+2025-08-03 00:30:26 - INFO - __main__ - ✅ 認証付き録画エンジン初期化完了
+2025-08-03 00:30:26 - INFO - twitcasting_monitor - 実TwitCasting監視システム初期化完了
+2025-08-03 00:30:26 - INFO - __main__ - ✅ 監視システム初期化完了
+2025-08-03 00:30:26 - INFO - __main__ - ✅ システム監視初期化完了
+2025-08-03 00:30:26 - INFO - twitcasting_monitor - 監視対象追加: c
+2025-08-03 00:30:26 - INFO - twitcasting_monitor - 監視対象追加: vau0307
+2025-08-03 00:30:26 - INFO - twitcasting_monitor - 監視対象追加: c:kutuna_
+2025-08-03 00:30:26 - INFO - __main__ - 📋 監視対象URL: 3件
+2025-08-03 00:30:26 - INFO - __main__ -   1. c
+2025-08-03 00:30:26 - INFO - __main__ -   2. vau0307
+2025-08-03 00:30:26 - INFO - __main__ -   3. c:kutuna_
+2025-08-03 00:30:26 - INFO - __main__ - 🔐 認証状態確認中...
+2025-08-03 00:30:26 - INFO - __main__ - ✅ 認証状態正常
+2025-08-03 00:30:26 - INFO - __main__ - 🚀 システム初期化完了
+2025-08-03 00:30:26 - INFO - __main__ - 🎮 対話モード開始
+2025-08-03 00:30:26 - INFO - __main__ - ----------------------------------------
+2025-08-03 00:30:33 - ERROR - __main__ - コマンド実行エラー: 'RakurekoMain' object has no attribute '_cmd_auth_add_url'
+2025-08-03 00:32:17 - INFO - root - ログ管理テスト成功
+2025-08-03 00:33:30 - INFO - root - ログシステム初期化完了
+2025-08-03 00:33:30 - INFO - __main__ - ============================================================
+2025-08-03 00:33:30 - INFO - __main__ - 🎬 ラクロク TwitCasting v2.0 起動中...
+2025-08-03 00:33:30 - INFO - __main__ - ============================================================
+2025-08-03 00:33:30 - INFO - __main__ - ✅ 設定管理初期化完了
+2025-08-03 00:33:30 - INFO - __main__ - 🔍 依存関係チェック中...
+2025-08-03 00:33:32 - INFO - __main__ - ✅ streamlink: streamlink 7.5.0
+2025-08-03 00:33:32 - INFO - __main__ - ✅ yt-dlp: 2025.05.22
+2025-08-03 00:33:32 - INFO - __main__ - ✅ ffmpeg: ffmpeg version 2025-06-04-git-a4c1a5b084-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+built with gcc 15.1.0 (Rev4, Built by MSYS2 project)
+configuration: --enable-gpl --enab
+2025-08-03 00:33:32 - INFO - __main__ - ✅ playwright (オプション): Version 1.52.0
+2025-08-03 00:33:32 - WARNING - __main__ - ⚠️ chromedriver (オプション): 'utf-8' codec can't decode byte 0x82 in position 15: invalid start byte
+2025-08-03 00:33:32 - INFO - __main__ - ✅ 認証管理初期化完了
+2025-08-03 00:33:32 - INFO - __main__ - ✅ URL管理初期化完了
+2025-08-03 00:33:32 - INFO - authenticated_recording - 認証付き録画エンジン初期化完了
+2025-08-03 00:33:32 - INFO - __main__ - ✅ 認証付き録画エンジン初期化完了
+2025-08-03 00:33:32 - INFO - twitcasting_monitor - 実TwitCasting監視システム初期化完了
+2025-08-03 00:33:32 - INFO - __main__ - ✅ 監視システム初期化完了
+2025-08-03 00:33:32 - INFO - __main__ - ✅ システム監視初期化完了
+2025-08-03 00:33:32 - INFO - twitcasting_monitor - 監視対象追加: c
+2025-08-03 00:33:32 - INFO - twitcasting_monitor - 監視対象追加: vau0307
+2025-08-03 00:33:32 - INFO - twitcasting_monitor - 監視対象追加: c:kutuna_
+2025-08-03 00:33:32 - INFO - __main__ - 📋 監視対象URL: 3件
+2025-08-03 00:33:32 - INFO - __main__ -   1. c
+2025-08-03 00:33:32 - INFO - __main__ -   2. vau0307
+2025-08-03 00:33:32 - INFO - __main__ -   3. c:kutuna_
+2025-08-03 00:33:32 - INFO - __main__ - 🔐 認証状態確認中...
+2025-08-03 00:33:32 - INFO - __main__ - ✅ 認証状態正常
+2025-08-03 00:33:32 - INFO - __main__ - 🚀 システム初期化完了
+2025-08-03 00:33:32 - INFO - __main__ - 🎮 対話モード開始
+2025-08-03 00:33:32 - INFO - __main__ - ----------------------------------------
+2025-08-03 00:34:22 - INFO - authenticated_recording - 認証付き録画エンジン初期化完了
+2025-08-03 00:34:22 - INFO - authenticated_recording - 🔐 認証付き録画開始: c:taidagmgm
+2025-08-03 00:34:23 - INFO - authenticated_recording - ✅ ブラウザ起動完了（ログイン状態維持）
+2025-08-03 00:34:36 - INFO - authenticated_recording - 📡 配信開始待機中: c:taidagmgm
+2025-08-03 00:35:40 - INFO - authenticated_recording - 🎯 m3u8 URL検出: c:taidagmgm
+2025-08-03 00:35:40 - INFO - authenticated_recording - 🍪 新鮮なCookie出力完了: c:taidagmgm
+2025-08-03 00:35:40 - INFO - authenticated_recording - 🎬 yt-dlp録画開始: c:taidagmgm
+2025-08-03 00:35:40 - INFO - authenticated_recording - ✅ 録画開始成功: c:taidagmgm
+2025-08-03 00:36:32 - ERROR - authenticated_recording - ❌ 録画失敗: c:taidagmgm (終了コード: 1)
+2025-08-03 00:36:32 - ERROR - authenticated_recording - エラー詳細: WARNING: "-f best" selects the best pre-merged format which is often not the best option.
+         To let yt-dlp download and merge the best available formats, simply do not pass any format selection.
+         If you know what you are doing and want only the best pre-merged format, use "-f b" instead to suppress this warning
+WARNING: skipping cookie file entry due to invalid expires at -1: '.twitcasting.tv\tTRUE\t/\tFALSE\t-1\tkeep\t1\n'
+WARNING: skipping cookie file entry due to invalid expires at -1: '.twitcasting.tv\tTRUE\t/\tFALSE\t-1\tprotection\ta2946f6f00296c043c20dcb242396f19\n'
+ERROR: [TwitCasting] 820804985: --live-from-start is passed, but there are no formats that can be downloaded from the start. If you want to download from the current time, use --no-live-from-start
+
+2025-08-03 00:36:34 - INFO - root - ログ管理テスト成功
+2025-08-03 00:37:45 - INFO - twitcasting_monitor - 実監視開始
+2025-08-03 00:37:49 - INFO - twitcasting_monitor - 監視ループ開始
+2025-08-03 00:37:50 - INFO - twitcasting_monitor - 配信状態変化: vau0307 unknown -> live
+2025-08-03 00:37:50 - INFO - twitcasting_monitor - 🔴 録画開始トリガー: vau0307
+2025-08-03 00:37:50 - ERROR - twitcasting_monitor - ❌ 録画開始例外: vau0307 - 'AuthenticatedRecordingEngine' object has no attribute 'start_recording'
+2025-08-03 00:37:50 - INFO - twitcasting_monitor - 配信状態変化: c:kutuna_ unknown -> live
+2025-08-03 00:37:50 - INFO - twitcasting_monitor - 🔴 録画開始トリガー: c:kutuna_
+2025-08-03 00:37:50 - ERROR - twitcasting_monitor - ❌ 録画開始例外: c:kutuna_ - 'AuthenticatedRecordingEngine' object has no attribute 'start_recording'
+2025-08-03 00:37:50 - INFO - twitcasting_monitor - 配信状態変化: c unknown -> live
+2025-08-03 00:37:50 - INFO - twitcasting_monitor - 🔴 録画開始トリガー: c
+2025-08-03 00:37:50 - ERROR - twitcasting_monitor - ❌ 録画開始例外: c - 'AuthenticatedRecordingEngine' object has no attribute 'start_recording'
+2025-08-03 00:37:51 - INFO - root - ログ管理テスト成功
+2025-08-03 00:38:34 - INFO - authenticated_recording - 認証付き録画エンジン初期化完了
+2025-08-03 00:38:34 - INFO - authenticated_recording - 🔐 認証付き録画開始: c:taidagmgm
+2025-08-03 00:38:35 - INFO - authenticated_recording - ✅ ブラウザ起動完了（ログイン状態維持）
+2025-08-03 00:38:48 - INFO - authenticated_recording - 📡 配信開始待機中: c:taidagmgm
+2025-08-03 00:38:49 - INFO - authenticated_recording - 🎯 m3u8 URL検出: c:taidagmgm
+2025-08-03 00:38:49 - INFO - authenticated_recording - 🍪 新鮮なCookie出力完了: c:taidagmgm
+2025-08-03 00:38:49 - INFO - authenticated_recording - 🎬 yt-dlp録画開始: c:taidagmgm
+2025-08-03 00:38:49 - INFO - authenticated_recording - ✅ 録画開始成功: c:taidagmgm
+2025-08-03 00:38:55 - ERROR - authenticated_recording - ❌ 録画失敗: c:taidagmgm (終了コード: 1)
+2025-08-03 00:38:55 - ERROR - authenticated_recording - エラー詳細: WARNING: "-f best" selects the best pre-merged format which is often not the best option.
+         To let yt-dlp download and merge the best available formats, simply do not pass any format selection.
+         If you know what you are doing and want only the best pre-merged format, use "-f b" instead to suppress this warning
+ERROR: [TwitCasting] 820804985: --live-from-start is passed, but there are no formats that can be downloaded from the start. If you want to download from the current time, use --no-live-from-start
+
+2025-08-03 00:38:57 - INFO - root - ログ管理テスト成功
+2025-08-03 00:41:20 - INFO - root - ログシステム初期化完了
+2025-08-03 00:41:20 - INFO - __main__ - ============================================================
+2025-08-03 00:41:20 - INFO - __main__ - 🎬 ラクロク TwitCasting v2.0 起動中...
+2025-08-03 00:41:20 - INFO - __main__ - ============================================================
+2025-08-03 00:41:20 - INFO - __main__ - ✅ 設定管理初期化完了
+2025-08-03 00:41:20 - INFO - __main__ - 🔍 依存関係チェック中...
+2025-08-03 00:41:22 - INFO - __main__ - ✅ streamlink: streamlink 7.5.0
+2025-08-03 00:41:22 - INFO - __main__ - ✅ yt-dlp: 2025.05.22
+2025-08-03 00:41:22 - INFO - __main__ - ✅ ffmpeg: ffmpeg version 2025-06-04-git-a4c1a5b084-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+built with gcc 15.1.0 (Rev4, Built by MSYS2 project)
+configuration: --enable-gpl --enab
+2025-08-03 00:41:22 - INFO - __main__ - ✅ playwright (オプション): Version 1.52.0
+2025-08-03 00:41:22 - WARNING - __main__ - ⚠️ chromedriver (オプション): 'utf-8' codec can't decode byte 0x82 in position 15: invalid start byte
+2025-08-03 00:41:22 - INFO - __main__ - ✅ 認証管理初期化完了
+2025-08-03 00:41:22 - INFO - __main__ - ✅ URL管理初期化完了
+2025-08-03 00:41:22 - INFO - authenticated_recording - 認証付き録画エンジン初期化完了
+2025-08-03 00:41:22 - INFO - __main__ - ✅ 認証付き録画エンジン初期化完了
+2025-08-03 00:41:22 - INFO - twitcasting_monitor - 実TwitCasting監視システム初期化完了
+2025-08-03 00:41:22 - INFO - __main__ - ✅ 監視システム初期化完了
+2025-08-03 00:41:22 - INFO - __main__ - ✅ システム監視初期化完了
+2025-08-03 00:41:22 - INFO - twitcasting_monitor - 監視対象追加: c
+2025-08-03 00:41:22 - INFO - twitcasting_monitor - 監視対象追加: vau0307
+2025-08-03 00:41:22 - INFO - twitcasting_monitor - 監視対象追加: c:kutuna_
+2025-08-03 00:41:22 - INFO - __main__ - 📋 監視対象URL: 3件
+2025-08-03 00:41:22 - INFO - __main__ -   1. c
+2025-08-03 00:41:22 - INFO - __main__ -   2. vau0307
+2025-08-03 00:41:22 - INFO - __main__ -   3. c:kutuna_
+2025-08-03 00:41:22 - INFO - __main__ - 🔐 認証状態確認中...
+2025-08-03 00:41:22 - INFO - __main__ - ✅ 認証状態正常
+2025-08-03 00:41:22 - INFO - __main__ - 🚀 システム初期化完了
+2025-08-03 00:41:22 - INFO - __main__ - 🎮 対話モード開始
+2025-08-03 00:41:22 - INFO - __main__ - ----------------------------------------
+2025-08-03 00:41:26 - INFO - twitcasting_monitor - 実監視開始
+2025-08-03 00:41:58 - INFO - authenticated_recording - 認証付き録画エンジン初期化完了
+2025-08-03 00:41:58 - INFO - authenticated_recording - 🔐 認証付き録画開始: c:taidagmgm
+2025-08-03 00:41:58 - INFO - twitcasting_monitor - 監視ループ開始
+2025-08-03 00:41:58 - INFO - twitcasting_monitor - 配信状態変化: vau0307 unknown -> live
+2025-08-03 00:41:58 - INFO - twitcasting_monitor - 🔴 録画開始トリガー: vau0307
+2025-08-03 00:41:58 - ERROR - twitcasting_monitor - ❌ 録画開始例外: vau0307 - 'AuthenticatedRecordingEngine' object has no attribute 'start_recording'
+2025-08-03 00:41:58 - INFO - twitcasting_monitor - 配信状態変化: c:kutuna_ unknown -> live
+2025-08-03 00:41:58 - INFO - twitcasting_monitor - 🔴 録画開始トリガー: c:kutuna_
+2025-08-03 00:41:58 - ERROR - twitcasting_monitor - ❌ 録画開始例外: c:kutuna_ - 'AuthenticatedRecordingEngine' object has no attribute 'start_recording'
+2025-08-03 00:41:59 - INFO - twitcasting_monitor - 配信状態変化: c unknown -> live
+2025-08-03 00:41:59 - INFO - twitcasting_monitor - 🔴 録画開始トリガー: c
+2025-08-03 00:41:59 - ERROR - twitcasting_monitor - ❌ 録画開始例外: c - 'AuthenticatedRecordingEngine' object has no attribute 'start_recording'
+2025-08-03 00:41:59 - INFO - authenticated_recording - ✅ ブラウザ起動完了（ログイン状態維持）
+2025-08-03 00:42:23 - WARNING - authenticated_recording - ⚠️ パスワード入力フィールドが見つかりません
+2025-08-03 00:42:23 - INFO - authenticated_recording - 📡 配信開始待機中: c:taidagmgm
+2025-08-03 00:44:07 - INFO - __main__ - シグナル 2 受信。終了処理開始...
+2025-08-03 00:44:07 - ERROR - authenticated_recording - ❌ 認証付き録画エラー: https://twitcasting.tv/c:taidagmgm - Page.wait_for_timeout: Target page, context or browser has been closed
+2025-08-03 00:44:07 - INFO - __main__ - 🛑 終了処理開始...
+2025-08-03 00:44:07 - INFO - twitcasting_monitor - 監視停止
+2025-08-03 00:44:07 - INFO - authenticated_recording - 認証付き録画エンジンシャットダウン
+2025-08-03 00:44:07 - INFO - root - システム監視停止
+2025-08-03 00:44:07 - INFO - __main__ - ✅ 終了処理完了
+2025-08-03 00:45:15 - INFO - root - ログシステム初期化完了
+2025-08-03 00:45:15 - INFO - __main__ - ============================================================
+2025-08-03 00:45:15 - INFO - __main__ - 🎬 ラクロク TwitCasting v2.0 起動中...
+2025-08-03 00:45:15 - INFO - __main__ - ============================================================
+2025-08-03 00:45:15 - INFO - __main__ - ✅ 設定管理初期化完了
+2025-08-03 00:45:15 - INFO - __main__ - 🔍 依存関係チェック中...
+2025-08-03 00:45:16 - INFO - __main__ - ✅ streamlink: streamlink 7.5.0
+2025-08-03 00:45:16 - INFO - __main__ - ✅ yt-dlp: 2025.05.22
+2025-08-03 00:45:16 - INFO - __main__ - ✅ ffmpeg: ffmpeg version 2025-06-04-git-a4c1a5b084-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+built with gcc 15.1.0 (Rev4, Built by MSYS2 project)
+configuration: --enable-gpl --enab
+2025-08-03 00:45:16 - INFO - __main__ - ✅ playwright (オプション): Version 1.52.0
+2025-08-03 00:45:16 - WARNING - __main__ - ⚠️ chromedriver (オプション): 'utf-8' codec can't decode byte 0x82 in position 15: invalid start byte
+2025-08-03 00:45:17 - INFO - __main__ - ✅ 認証管理初期化完了
+2025-08-03 00:45:17 - INFO - __main__ - ✅ URL管理初期化完了
+2025-08-03 00:45:17 - INFO - authenticated_recording - 認証付き録画エンジン初期化完了
+2025-08-03 00:45:17 - INFO - __main__ - ✅ 認証付き録画エンジン初期化完了
+2025-08-03 00:45:17 - INFO - twitcasting_monitor - 実TwitCasting監視システム初期化完了
+2025-08-03 00:45:17 - INFO - __main__ - ✅ 監視システム初期化完了
+2025-08-03 00:45:17 - INFO - __main__ - ✅ システム監視初期化完了
+2025-08-03 00:45:17 - INFO - twitcasting_monitor - 監視対象追加: c
+2025-08-03 00:45:17 - INFO - twitcasting_monitor - 監視対象追加: vau0307
+2025-08-03 00:45:17 - INFO - twitcasting_monitor - 監視対象追加: c:kutuna_
+2025-08-03 00:45:17 - INFO - __main__ - 📋 監視対象URL: 3件
+2025-08-03 00:45:17 - INFO - __main__ -   1. c
+2025-08-03 00:45:17 - INFO - __main__ -   2. vau0307
+2025-08-03 00:45:17 - INFO - __main__ -   3. c:kutuna_
+2025-08-03 00:45:17 - INFO - __main__ - 🔐 認証状態確認中...
+2025-08-03 00:45:17 - INFO - __main__ - ✅ 認証状態正常
+2025-08-03 00:45:17 - INFO - __main__ - 🚀 システム初期化完了
+2025-08-03 00:45:17 - INFO - __main__ - 🎮 対話モード開始
+2025-08-03 00:45:17 - INFO - __main__ - ----------------------------------------
+2025-08-03 00:45:52 - INFO - authenticated_recording - 認証付き録画エンジン初期化完了
+2025-08-03 00:45:52 - INFO - authenticated_recording - 🔐 認証付き録画開始: c:taidagmgm
+2025-08-03 00:45:52 - INFO - authenticated_recording - ✅ ブラウザ起動完了（ログイン状態維持）
+2025-08-03 00:46:05 - INFO - authenticated_recording - 📡 配信開始待機中: c:taidagmgm
+2025-08-03 00:46:06 - INFO - authenticated_recording - 🎯 m3u8 URL検出: c:taidagmgm
+2025-08-03 00:46:06 - INFO - authenticated_recording - 🍪 新鮮なCookie出力完了: c:taidagmgm
+2025-08-03 00:46:06 - INFO - authenticated_recording - 🎬 yt-dlp録画開始: c:taidagmgm
+2025-08-03 00:46:06 - INFO - authenticated_recording - ✅ 録画開始成功: c:taidagmgm
+2025-08-03 00:46:17 - INFO - root - ログ管理テスト成功
+2025-08-03 00:47:44 - INFO - __main__ - 🛑 終了処理開始...
+2025-08-03 00:47:44 - WARNING - twitcasting_monitor - 監視していません
+2025-08-03 00:47:44 - INFO - authenticated_recording - 認証付き録画エンジンシャットダウン
+2025-08-03 00:47:44 - INFO - root - システム監視停止
+2025-08-03 00:47:44 - INFO - __main__ - ✅ 終了処理完了
+2025-08-03 01:16:14 - INFO - root - ログシステム初期化完了
+2025-08-03 01:16:14 - INFO - __main__ - ============================================================
+2025-08-03 01:16:14 - INFO - __main__ - 🎬 ラクロク TwitCasting v2.0 起動中...
+2025-08-03 01:16:14 - INFO - __main__ - ============================================================
+2025-08-03 01:16:14 - INFO - __main__ - ✅ 設定管理初期化完了
+2025-08-03 01:16:14 - INFO - __main__ - 🔍 依存関係チェック中...
+2025-08-03 01:16:15 - INFO - __main__ - ✅ streamlink: streamlink 7.5.0
+2025-08-03 01:16:15 - INFO - __main__ - ✅ yt-dlp: 2025.05.22
+2025-08-03 01:16:15 - INFO - __main__ - ✅ ffmpeg: ffmpeg version 2025-06-04-git-a4c1a5b084-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+built with gcc 15.1.0 (Rev4, Built by MSYS2 project)
+configuration: --enable-gpl --enab
+2025-08-03 01:16:15 - INFO - __main__ - ✅ playwright (オプション): Version 1.52.0
+2025-08-03 01:16:15 - WARNING - __main__ - ⚠️ chromedriver (オプション): 'utf-8' codec can't decode byte 0x82 in position 15: invalid start byte
+2025-08-03 01:16:16 - INFO - __main__ - ✅ 認証管理初期化完了
+2025-08-03 01:16:16 - INFO - __main__ - ✅ URL管理初期化完了
+2025-08-03 01:16:16 - INFO - authenticated_recording - 認証付き録画エンジン初期化完了
+2025-08-03 01:16:16 - INFO - __main__ - ✅ 認証付き録画エンジン初期化完了
+2025-08-03 01:16:16 - INFO - twitcasting_monitor - 実TwitCasting監視システム初期化完了
+2025-08-03 01:16:16 - INFO - __main__ - ✅ 監視システム初期化完了
+2025-08-03 01:16:16 - INFO - __main__ - ✅ システム監視初期化完了
+2025-08-03 01:16:16 - INFO - twitcasting_monitor - 監視対象追加: c
+2025-08-03 01:16:16 - INFO - twitcasting_monitor - 監視対象追加: vau0307
+2025-08-03 01:16:16 - INFO - twitcasting_monitor - 監視対象追加: c:kutuna_
+2025-08-03 01:16:16 - INFO - __main__ - 📋 監視対象URL: 3件
+2025-08-03 01:16:16 - INFO - __main__ -   1. c
+2025-08-03 01:16:16 - INFO - __main__ -   2. vau0307
+2025-08-03 01:16:16 - INFO - __main__ -   3. c:kutuna_
+2025-08-03 01:16:16 - INFO - __main__ - 🔐 認証状態確認中...
+2025-08-03 01:16:16 - INFO - __main__ - ✅ 認証状態正常
+2025-08-03 01:16:16 - INFO - __main__ - 🚀 システム初期化完了
+2025-08-03 01:16:16 - INFO - __main__ - 🎮 対話モード開始
+2025-08-03 01:16:16 - INFO - __main__ - ----------------------------------------
+2025-08-03 01:16:28 - INFO - twitcasting_monitor - 実監視開始
+2025-08-03 01:17:55 - INFO - root - URL追加成功: https://twitcasting.tv/komachik1221
+2025-08-03 01:17:55 - INFO - twitcasting_monitor - 監視対象追加: komachik1221
+2025-08-03 01:18:06 - INFO - twitcasting_monitor - 監視ループ開始
+2025-08-03 01:18:07 - INFO - twitcasting_monitor - 配信状態変化: vau0307 unknown -> live
+2025-08-03 01:18:07 - INFO - twitcasting_monitor - 🔴 録画開始トリガー: vau0307
+2025-08-03 01:18:07 - INFO - authenticated_recording - 🔐 認証付き録画開始: vau0307
+2025-08-03 01:18:07 - INFO - twitcasting_monitor - 配信状態変化: c:kutuna_ unknown -> live
+2025-08-03 01:18:07 - INFO - twitcasting_monitor - 🔴 録画開始トリガー: c:kutuna_
+2025-08-03 01:18:07 - INFO - authenticated_recording - 🔐 認証付き録画開始: c:kutuna_
+2025-08-03 01:18:07 - INFO - twitcasting_monitor - 配信状態変化: c unknown -> live
+2025-08-03 01:18:07 - INFO - twitcasting_monitor - 🔴 録画開始トリガー: c
+2025-08-03 01:18:07 - INFO - authenticated_recording - 🔐 認証付き録画開始: c
+2025-08-03 01:18:07 - INFO - authenticated_recording - ✅ ブラウザ起動完了（ログイン状態維持）
+2025-08-03 01:18:08 - ERROR - authenticated_recording - ❌ 認証付き録画エラー: https://twitcasting.tv/vau0307 - BrowserType.launch_persistent_context: Target page, context or browser has been closed
+Browser logs:
+
+<launching> C:\Users\81904\AppData\Local\ms-playwright\chromium-1169\chrome-win\chrome.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AcceptCHFrame,AutoExpandDetailsElement,AvoidUnnecessaryBeforeUnloadCheckSync,CertificateTransparencyComponentUpdater,DeferRendererTasksAfterInput,DestroyProfileOnBrowserClose,DialMediaRouteProvider,ExtensionManifestV2Disabled,GlobalMediaControls,HttpsUpgrades,ImprovedCookieControls,LazyFrameLoading,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --enable-automation --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --no-sandbox --disable-blink-features=AutomationControlled --no-first-run --disable-dev-shm-usage --user-data-dir=C:\Users\81904\Desktop\RakurekoTwitCasting\data\browser_profile --remote-debugging-pipe about:blank
+<launched> pid=4848
+Call log:
+  - <launching> C:\Users\81904\AppData\Local\ms-playwright\chromium-1169\chrome-win\chrome.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AcceptCHFrame,AutoExpandDetailsElement,AvoidUnnecessaryBeforeUnloadCheckSync,CertificateTransparencyComponentUpdater,DeferRendererTasksAfterInput,DestroyProfileOnBrowserClose,DialMediaRouteProvider,ExtensionManifestV2Disabled,GlobalMediaControls,HttpsUpgrades,ImprovedCookieControls,LazyFrameLoading,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --enable-automation --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --no-sandbox --disable-blink-features=AutomationControlled --no-first-run --disable-dev-shm-usage --user-data-dir=C:\Users\81904\Desktop\RakurekoTwitCasting\data\browser_profile --remote-debugging-pipe about:blank
+  - <launched> pid=4848
+
+2025-08-03 01:18:08 - ERROR - twitcasting_monitor - ❌ 録画開始失敗: vau0307
+2025-08-03 01:18:08 - INFO - twitcasting_monitor - 配信状態変化: komachik1221 unknown -> live
+2025-08-03 01:18:08 - INFO - twitcasting_monitor - 🔴 録画開始トリガー: komachik1221
+2025-08-03 01:18:08 - INFO - authenticated_recording - 🔐 認証付き録画開始: komachik1221
+2025-08-03 01:18:08 - ERROR - authenticated_recording - ❌ 認証付き録画エラー: https://twitcasting.tv/c - BrowserType.launch_persistent_context: Target page, context or browser has been closed
+Browser logs:
+
+<launching> C:\Users\81904\AppData\Local\ms-playwright\chromium-1169\chrome-win\chrome.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AcceptCHFrame,AutoExpandDetailsElement,AvoidUnnecessaryBeforeUnloadCheckSync,CertificateTransparencyComponentUpdater,DeferRendererTasksAfterInput,DestroyProfileOnBrowserClose,DialMediaRouteProvider,ExtensionManifestV2Disabled,GlobalMediaControls,HttpsUpgrades,ImprovedCookieControls,LazyFrameLoading,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --enable-automation --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --no-sandbox --disable-blink-features=AutomationControlled --no-first-run --disable-dev-shm-usage --user-data-dir=C:\Users\81904\Desktop\RakurekoTwitCasting\data\browser_profile --remote-debugging-pipe about:blank
+<launched> pid=27128
+Call log:
+  - <launching> C:\Users\81904\AppData\Local\ms-playwright\chromium-1169\chrome-win\chrome.exe --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AcceptCHFrame,AutoExpandDetailsElement,AvoidUnnecessaryBeforeUnloadCheckSync,CertificateTransparencyComponentUpdater,DeferRendererTasksAfterInput,DestroyProfileOnBrowserClose,DialMediaRouteProvider,ExtensionManifestV2Disabled,GlobalMediaControls,HttpsUpgrades,ImprovedCookieControls,LazyFrameLoading,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --enable-automation --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --no-sandbox --disable-blink-features=AutomationControlled --no-first-run --disable-dev-shm-usage --user-data-dir=C:\Users\81904\Desktop\RakurekoTwitCasting\data\browser_profile --remote-debugging-pipe about:blank
+  - <launched> pid=27128
+
+2025-08-03 01:18:08 - ERROR - twitcasting_monitor - ❌ 録画開始失敗: c
+2025-08-03 01:18:09 - INFO - root - ログ管理テスト成功
+2025-08-03 01:18:52 - INFO - root - ログ管理テスト成功
+2025-08-03 01:19:24 - INFO - __main__ - シグナル 2 受信。終了処理開始...
+2025-08-03 01:19:24 - INFO - __main__ - 🛑 終了処理開始...
+2025-08-03 01:19:24 - INFO - twitcasting_monitor - 監視停止
+2025-08-03 01:19:24 - INFO - authenticated_recording - 認証付き録画エンジンシャットダウン
+2025-08-03 01:19:24 - ERROR - asyncio - Future exception was never retrieved
+future: <Future finished exception=TimeoutError('Timeout 3000ms exceeded.\nCall log:\n  - waiting for locator("button:has-text(\\"はい\\")") to be visible\n')>
+playwright._impl._errors.TimeoutError: Timeout 3000ms exceeded.
+Call log:
+  - waiting for locator("button:has-text(\"はい\")") to be visible
+
+2025-08-03 01:19:24 - ERROR - asyncio - Future exception was never retrieved
+future: <Future finished exception=TimeoutError('Timeout 3000ms exceeded.\nCall log:\n  - waiting for locator("button:has-text(\\"はい\\")") to be visible\n')>
+playwright._impl._errors.TimeoutError: Timeout 3000ms exceeded.
+Call log:
+  - waiting for locator("button:has-text(\"はい\")") to be visible
+
+2025-08-03 01:19:24 - INFO - authenticated_recording - 📡 配信開始待機中: c:kutuna_
+2025-08-03 01:19:24 - INFO - authenticated_recording - 📡 配信開始待機中: komachik1221
+2025-08-03 01:19:24 - ERROR - authenticated_recording - ❌ 認証付き録画エラー: https://twitcasting.tv/c:kutuna_ - Page.wait_for_timeout: Target page, context or browser has been closed
+2025-08-03 01:19:24 - ERROR - twitcasting_monitor - ❌ 録画開始失敗: c:kutuna_
+2025-08-03 01:19:24 - ERROR - authenticated_recording - ❌ 認証付き録画エラー: https://twitcasting.tv/komachik1221 - Page.wait_for_timeout: Target page, context or browser has been closed
+2025-08-03 01:19:24 - ERROR - twitcasting_monitor - ❌ 録画開始失敗: komachik1221
+2025-08-03 01:19:24 - INFO - twitcasting_monitor - 監視ループ終了
+2025-08-03 01:19:24 - ERROR - __main__ - 終了処理エラー: BrowserContext.close: Connection closed while reading from the driver
