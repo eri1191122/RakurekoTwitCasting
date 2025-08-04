@@ -15,3 +15,7 @@ config/
 # ブラウザプロファイル（PlaywrightやChrome）
 data/browser_profile/
 playwright_user_data/
+
+recordings/temp/*.mp4
+
+recordings/temp/*.mp4
