@@ -16,16 +16,6 @@ from typing import Optional, List, Dict, Any, Protocol
 from datetime import datetime
 from dataclasses import dataclass
 import argparse
-import sys
-from pathlib import Path
-
-try:
-    from src.core.process_manager import ProcessManager
-    PROCESS_MANAGER_AVAILABLE = True
-    print("✅ ProcessManager統合完了")
-except ImportError as e:
-    PROCESS_MANAGER_AVAILABLE = False
-    print(f"⚠️ ProcessManager未統合: {e}")
 
 # ログ設定
 def setup_logging(log_level: str = "INFO") -> logging.Logger:
@@ -153,36 +143,6 @@ class RakurekoTwitCastingOrchestrator:
             logger.warning("シグナルハンドラー設定スキップ（非コンソール環境）")
         
         logger.info("🚀 オーケストレーター初期化完了")
-    
-    async def _cleanup_after_recording(self, session_url: str):
-        """録画完了後のクリーンアップ処理"""
-        if not PROCESS_MANAGER_AVAILABLE:
-            print("⚠️ ProcessManager利用不可 - 手動クリーンアップが必要")
-            return
-        
-        try:
-            print("🧹 録画完了後クリーンアップ開始...")
-
-            process_manager = ProcessManager()
-            temp_dir = self.system_config.recordings_dir / "temp"
-            completed_dir = self.system_config.recordings_dir / "completed"
-
-            result = await process_manager.cleanup_recording_session(temp_dir, completed_dir)
-
-            if result['success']:
-                total_processes = sum(result['processes_terminated'].values())
-                total_files = len(result['files_moved'])
-                print(f"✅ クリーンアップ完了: プロセス{total_processes}個終了, ファイル{total_files}個移動")
-
-                if result['files_moved']:
-                    print("📁 移動完了ファイル:")
-                    for file_info in result['files_moved']:
-                        print(f"  - {Path(file_info['dest']).name} ({file_info['size_mb']}MB)")
-            else:
-                print(f"❌ クリーンアップ失敗: {result.get('errors', [])}")
-
-        except Exception as e:
-            print(f"❌ クリーンアップエラー: {e}")
     
     def _signal_handler(self, signum, frame):
         """シグナルハンドラー"""
@@ -1054,10 +1014,7 @@ async def main():
                     except KeyboardInterrupt:
                         print("\n📹 録画を停止します...")
                         await orchestrator.stop_recording(args.command)
-
-                        print("🧹 録画完了後クリーンアップ実行中...")
-                        await orchestrator._cleanup_after_recording(args.command)
-
+                        
             else:
                 print(f"❌ 不明なコマンド: {args.command}")
                 return 1

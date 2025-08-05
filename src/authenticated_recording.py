@@ -226,21 +226,23 @@ class AuthenticatedRecordingEngine:
             output_file = self.temp_dir / f"{session.username}_{timestamp}.mp4"
             session.output_file = output_file
             
-            # Cookie一時ファイル作成
+            # Cookie一時ファイル作成（完全修正版）
             cookie_file = None
             if session.cookie_header:
                 cookie_file = self.temp_dir / f"cookies_{session.session_id}.txt"
-                await self._create_netscape_cookie_file(cookie_file, session.cookie_header, session.url)
+                await self._create_netscape_cookie_file_fixed(cookie_file, session.cookie_header, session.url)
             
-            # yt-dlpコマンド構築
+            # yt-dlpコマンド構築（完全修正版）
             cmd = [
                 'yt-dlp',
                 session.m3u8_url or session.url,
                 '--output', str(output_file),
                 '--no-live-from-start',
-                '--format', options.quality,
+                '--format', 'best',  # 警告回避のため修正
                 '--no-part',
-                '--no-mtime'
+                '--no-mtime',
+                '--add-header', 'Referer: https://twitcasting.tv/',
+                '--add-header', 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
             ]
             
             if cookie_file and cookie_file.exists():
@@ -269,13 +271,17 @@ class AuthenticatedRecordingEngine:
             self.logger.error(f"yt-dlp録画開始エラー: {e}")
             return False
     
-    async def _create_netscape_cookie_file(self, cookie_file: Path, cookie_header: str, url: str):
-        """✅ 修正: Netscape形式Cookieファイル作成"""
+    async def _create_netscape_cookie_file_fixed(self, cookie_file: Path, cookie_header: str, url: str):
+        """✅ 完全修正: Netscape形式Cookieファイル作成（yt-dlp互換）"""
         try:
             # ドメイン抽出
             import urllib.parse
             parsed_url = urllib.parse.urlparse(url)
             domain = parsed_url.netloc
+            
+            # ドメインの正規化
+            if not domain.startswith('.'):
+                domain = f".{domain}"
             
             # Netscape形式でCookieファイル作成
             with open(cookie_file, 'w', encoding='utf-8') as f:
@@ -285,13 +291,19 @@ class AuthenticatedRecordingEngine:
                 for cookie_pair in cookie_header.split('; '):
                     if '=' in cookie_pair:
                         name, value = cookie_pair.split('=', 1)
-                        # Netscape形式の行
-                        f.write(f"{domain}\tTRUE\t/\tFALSE\t0\t{name}\t{value}\n")
+                        # 正しいNetscape形式: domain domain_specified path secure expires name value
+                        # domain_specified: ドメインが . で始まる場合は TRUE
+                        domain_specified = 'TRUE'
+                        path = '/'
+                        secure = 'FALSE'
+                        expires = '0'  # セッションクッキー
+                        
+                        f.write(f"{domain}\t{domain_specified}\t{path}\t{secure}\t{expires}\t{name}\t{value}\n")
             
-            self.logger.debug(f"Netscape Cookieファイル作成: {cookie_file}")
+            self.logger.debug(f"✅ 修正版Netscape Cookieファイル作成: {cookie_file}")
             
         except Exception as e:
-            self.logger.error(f"Cookieファイル作成エラー: {e}")
+            self.logger.error(f"❌ Cookieファイル作成エラー: {e}")
     
     async def _execute_fallback_recording(self, session: RecordingSession, options: RecordingOptions) -> bool:
         """✅ 修正: フォールバック録画処理"""
@@ -403,22 +415,34 @@ class AuthenticatedRecordingEngine:
             return None
 
     async def _export_fresh_cookies(self, session: RecordingSession, page) -> Path:
-        """新鮮なCookie取得"""
+        """新鮮なCookie取得（修正版）"""
         try:
             cookie_file = self.cookies_dir / f"cookies_{session.session_id}.txt"
             
             # ページからCookie取得
             cookies = await session.browser_context.cookies()
             
-            # Netscape形式で保存
+            # Netscape形式で保存（修正版）
             with open(cookie_file, 'w', encoding='utf-8') as f:
                 f.write("# Netscape HTTP Cookie File\n")
                 f.write("# This is a generated file! Do not edit.\n\n")
                 
                 for cookie in cookies:
-                    f.write(f"{cookie['domain']}\tTRUE\t{cookie['path']}\t{cookie['secure']}\t0\t{cookie['name']}\t{cookie['value']}\n")
+                    # domain_specifiedの正しい設定
+                    domain = cookie['domain']
+                    if not domain.startswith('.'):
+                        domain = f".{domain}"
+                    
+                    domain_specified = 'TRUE'
+                    path = cookie.get('path', '/')
+                    secure = 'TRUE' if cookie.get('secure', False) else 'FALSE'
+                    expires = str(cookie.get('expires', 0))
+                    name = cookie['name']
+                    value = cookie['value']
+                    
+                    f.write(f"{domain}\t{domain_specified}\t{path}\t{secure}\t{expires}\t{name}\t{value}\n")
             
-            self.logger.info(f"🍪 Cookie出力完了: {cookie_file}")
+            self.logger.info(f"🍪 修正版Cookie出力完了: {cookie_file}")
             return cookie_file
             
         except Exception as e:
@@ -432,8 +456,17 @@ class AuthenticatedRecordingEngine:
             output_file = self.temp_dir / f"{session.username}_{timestamp}.mp4"
             session.output_file = output_file
             
-            cmd = ['yt-dlp', session.url, '--output', str(output_file), '--no-live-from-start',
-                   '--format', options.quality, '--no-part']
+            cmd = [
+                'yt-dlp', 
+                session.url, 
+                '--output', str(output_file), 
+                '--no-live-from-start',
+                '--format', 'best', 
+                '--no-part',
+                '--add-header', 'Referer: https://twitcasting.tv/',
+                '--add-header', 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            ]
+            
             if cookie_file and cookie_file.exists():
                 cmd.extend(['--cookies', str(cookie_file)])
             
@@ -451,7 +484,7 @@ class AuthenticatedRecordingEngine:
             return False
 
     async def _monitor_recording_process(self, session: RecordingSession, cookie_file: Optional[Path] = None):
-        """録画プロセス監視"""
+        """録画プロセス監視（エラーログ強化版）"""
         try:
             if not session.process: 
                 return
@@ -472,7 +505,7 @@ class AuthenticatedRecordingEngine:
                 session.status = SessionStatus.FAILED
                 error_msg = stderr.decode('utf-8', errors='ignore')
                 self.logger.error(f"❌ 録画失敗: {session.username} (code: {session.process.returncode})")
-                self.logger.debug(f"エラー詳細: {error_msg}")
+                self.logger.error(f"エラー詳細: {error_msg}")
         
         except Exception as e:
             session.status = SessionStatus.ERROR
